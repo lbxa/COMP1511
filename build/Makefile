@@ -1,5 +1,5 @@
 #Makefile: Lucas Barbosa
-C_FLAGS=-Wall -Werror -O
+C_FLAGS= -O
 C_COMP=gcc
 
 MAIN_SRC=$(wildcard *.c)
@@ -9,8 +9,7 @@ ALL_O=$(wildcard *.o)
 default_comp:
 	$(C_COMP) $(MAIN_SRC) $(C_FLAGS) -o $(MAIN_O)
 
-run: $(MAIN_O)
-  clear      #clear screen
+run: $(MAIN_O) 
 	./$(MAIN_O)
 
 clean:
