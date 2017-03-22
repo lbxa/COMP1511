@@ -3,7 +3,7 @@
 
 void sort(int first, int second, int third);
 
-int main(void) { 
+int main(int argc, char **argv) { 
 
 	int first, second, third; 
 	scanf ("%d %d %d", &first, &second, &third);
