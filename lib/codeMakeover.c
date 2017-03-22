@@ -26,7 +26,7 @@
 #define ABOVE_LINE 1  
 
 int testSide( double xTestCoord, double yTestCoord, 
-                  double gradient, double yIntercept  );
+                  double gradient, double yIntercept);
 
 int isOnSameSide( double xTestCoord, double yTestCoord, double gradient,
                   double yIntercept, double xCoord, double yCoord);
