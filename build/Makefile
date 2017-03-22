@@ -10,6 +10,7 @@ default_comp:
 	$(C_COMP) $(MAIN_SRC) $(C_FLAGS) -o $(MAIN_O)
 
 run: $(MAIN_O)
+  clear      #clear screen
 	./$(MAIN_O)
 
 clean:
