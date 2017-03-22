@@ -23,9 +23,9 @@ int main(int argc, char *argv[]) {
 	scanf("%d", &user_year);
 
 	assert(user_year > START_GREG_CAL);
-
+	
 	int leapResult = isLeapYear(user_year);
-
+	
 	if (leapResult == TRUE) {
 		printf("%d is a leap year!\n", user_year);
 	} else {
