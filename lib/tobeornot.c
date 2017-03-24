@@ -9,7 +9,7 @@
 
 int main(void) {
 
-	printf("To be, or not to be?\n");
+	printf("To be, or not to be?");
 	
 	return EXIT_SUCCESS;
 	

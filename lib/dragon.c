@@ -9,7 +9,7 @@
 
 int main(void) {
 
-	printf("+----+__O\n|    |\n+----+\n|    |")
+	printf("+----+__O\n|    |\n+----+\n|    |");
 
 	return EXIT_SUCCESS;
 

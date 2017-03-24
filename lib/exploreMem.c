@@ -32,12 +32,12 @@ int main(int argc, const char * argv[]) {
    
    printf("The Stack\n\n");
    
-   printf("%-25s%-20s%-18s\n", "[Unsigned Type]", "Memory (bytes)", 
+   printf("%-20s%-20s%-20s\n", "[Unsigned Type]", "Memory (bytes)", 
    "Stack location");
-   printf("%-25s%-20d0x%-18p\n", "Long", sizeof(ul), &ul);
-   printf("%-25s%-20d0x%-18p\n", "Int", sizeof(ui), &ui);
-   printf("%-25s%-20d0x%-18p\n", "Long Long", sizeof(ull), &ull);
-   printf("%-25s%-20d0x%-18p\n", "Short", sizeof(us), & us);
+   printf("%-20s%-20d0x%-20p\n", "Long", sizeof(ul), &ul);
+   printf("%-20s%-20d0x%-20p\n", "Int", sizeof(ui), &ui);
+   printf("%-20s%-20d0x%-20p\n", "Long Long", sizeof(ull), &ull);
+   printf("%-20s%-20d0x%-20p\n", "Short", sizeof(us), & us);
    printf("\n");
    
    signed long sl       = 4;
@@ -45,12 +45,12 @@ int main(int argc, const char * argv[]) {
    signed long long sll = 6;
    signed short ss      = 7;
    
-   printf("%-25s%-20s%-18s\n", "[Signed Type]", "Memory (bytes)", 
+   printf("%-20s%-20s%-20s\n", "[Signed Type]", "Memory (bytes)", 
    "Stack location");
-   printf("%-25s%-20d0x%-18p\n", "Long", sizeof(sl), &sl);
-   printf("%-25s%-20d0x%-18p\n", "Int", sizeof(si), &si);
-   printf("%-25s%-20d0x%-18p\n", "Long Long", sizeof(sll), &sll);
-   printf("%-25s%-20d0x%-18p\n", "Short", sizeof(ss), & ss);
+   printf("%-20s%-20d0x%-20p\n", "Long", sizeof(sl), &sl);
+   printf("%-20s%-20d0x%-20p\n", "Int", sizeof(si), &si);
+   printf("%-20s%-20d0x%-20p\n", "Long Long", sizeof(sll), &sll);
+   printf("%-20s%-20d0x%-20p\n", "Short", sizeof(ss), & ss);
    printf("\n");
  
    long l       = 8;
@@ -58,12 +58,12 @@ int main(int argc, const char * argv[]) {
    long long ll = 10;
    short s      = 11;
    
-   printf("%-25s%-20s%-18s\n", "[Generic Types]", "Memory (bytes)", 
+   printf("%-20s%-20s%-20s\n", "[Generic Types]", "Memory (bytes)", 
    "Stack location");
-   printf("%-25s%-20d0x%-18p\n", "Long", sizeof(l), &l);
-   printf("%-25s%-20d0x%-18p\n", "Int", sizeof(i), &i);
-   printf("%-25s%-20d0x%-18p\n", "Long Long", sizeof(ll), &ll);
-   printf("%-25s%-20d0x%-18p\n", "Short", sizeof(s), & s);
+   printf("%-20s%-20d0x%-20p\n", "Long", sizeof(l), &l);
+   printf("%-20s%-20d0x%-20p\n", "Int", sizeof(i), &i);
+   printf("%-20s%-20d0x%-20p\n", "Long Long", sizeof(ll), &ll);
+   printf("%-20s%-20d0x%-20p\n", "Short", sizeof(s), & s);
    printf("\n");
  
    float f = 3.1;
