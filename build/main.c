@@ -56,7 +56,7 @@ void testEncode(void) {
    
    assert(encode(A) == 'N');
    assert(encode(B) == 'O');
-   assert(encode(C) == 'P');
+   assert(encode(C) == 'P'); 
    assert(encode(D) == 'Q');
    assert(encode(z) == 'm');
    assert(encode(w) == 'j');
