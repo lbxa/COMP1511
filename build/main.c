@@ -1,41 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void sort(int *first, int *second, int *third);
+typedef struct {
+   char stack[100];
+   int size;
+   int items;
+} stack_struct;
 
 int main(int argc, char **argv) { 
-
-	int first, second, third; 
-	scanf ("%d %d %d", &first, &second, &third);
-	sort(&first, &second, &third);
-   printf("%d, %d, %d\n", first, second, third);
+   
+   stack_struct *myStruct = (stack_struct *)malloc(sizeof(myStruct));
+   myStruct->size = 5;
 
 	return EXIT_SUCCESS;
-
-}
-
-void sort(int *first, int *second, int *third) {
-	
-   int array[3];
-	array[0] = (*first);
-	array[1] = (*second);
-	array[2] = (*third);
-
-	for (int i = 0; i < 3; i++) {
-		int key = array[i];
-		int previousElement = i - 1;
-
-		while ((previousElement >= 0) && (array[previousElement] > key)) {
-			array[previousElement + 1] = array[previousElement];
-			previousElement -= 1;
-		}
-		
-		array[previousElement + 1] = key;
-		
-	}
-
-   (*first) = array[0];
-	(*second) = array[1];
-	(*third) = array[2]; 
 
 }
