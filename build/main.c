@@ -1,69 +1,41 @@
-// Lucas Barbosa
-// 24/03/17
-// Basic rotate 13 cypher
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 
-char encode (char letter);
-void testEncode(void);
-char* rot13_encoder(char *sentence, int sizeOfString);
+void sort(int *first, int *second, int *third);
 
-int main (int argc, char **argv) {
- 
-   testEncode();
-   
-   return EXIT_SUCCESS;
- 
+int main(int argc, char **argv) { 
+
+	int first, second, third; 
+	scanf ("%d %d %d", &first, &second, &third);
+	sort(&first, &second, &third);
+   printf("%d, %d, %d\n", first, second, third);
+
+	return EXIT_SUCCESS;
+
 }
 
-char encode(char letter) {
-   
-   char outputLetter   = '\0';
-   char inputKeys[52]  = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-   char outputKeys[52] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
-   int inputKeyArraySize = sizeof(inputKeys)/sizeof(inputKeys[0]);
-   int asciiKey = (int)letter;
-   
-   if (((asciiKey >= 65) && (asciiKey <= 90)) || ((asciiKey >= 97) && (asciiKey <= 122))) { 
-      for (int i = 0; i < inputKeyArraySize; i++) {
-         int CURRLETTER = i;
-         if (letter == inputKeys[CURRLETTER]) {
-            outputLetter = outputKeys[CURRLETTER];
-         }   
-      }
-   } else {
-      outputLetter = letter;
-   }
-   
-   return outputLetter;
-   
-}
+void sort(int *first, int *second, int *third) {
+	
+   int array[3];
+	array[0] = (*first);
+	array[1] = (*second);
+	array[2] = (*third);
 
-char* rot13_encoder(char *sentence, int sizeOfString) {
-   char *encodedString = (char *)malloc(sizeof(encodedString + 1));
-   for (int i = 0; i < sizeOfString; i++) {
-      int CURRLETTER = i;
-      encodedString[CURRLETTER] = encode(sentence[CURRLETTER]);
-   }
-   return encodedString;
-}
+	for (int i = 0; i < 3; i++) {
+		int key = array[i];
+		int previousElement = i - 1;
 
-void testEncode(void) {
-   char A = 'A'; char B = 'B'; char C = 'C';
-   char D = 'D'; char z = 'z'; char w = 'w';
-   
-   assert(encode(A) == 'N');
-   assert(encode(B) == 'O');
-   assert(encode(C) == 'P'); 
-   assert(encode(D) == 'Q');
-   assert(encode(z) == 'm');
-   assert(encode(w) == 'j');
-   /// Special case
-   assert(encode('[') == '[');
-   
-   printf("All unit tests were successful.\n");
-   
+		while ((previousElement >= 0) && (array[previousElement] > key)) {
+			array[previousElement + 1] = array[previousElement];
+			previousElement -= 1;
+		}
+		
+		array[previousElement + 1] = key;
+		
+	}
+
+   (*first) = array[0];
+	(*second) = array[1];
+	(*third) = array[2]; 
+
 }
-   
