@@ -1,11 +1,9 @@
 // Lucas Barbosa
 // 24/03/2017
 // Program to print out wonderous numbers 
+
 #include <stdio.h>
 #include <stdlib.h>
-
-#define TRUE 1
-#define FALSE 0
 
 int printWondrous (int start);
 
@@ -42,11 +40,10 @@ int printWondrous (int start) {
    while(wonderousNumber != 1) {
       if (wonderousNumber % 2 == 0) {
          wonderousNumber /= 2;
-      } else if (wonderousNumber % 2 != 0) {
+      } else {
          wonderousNumber = (wonderousNumber * 3) + 1;
-      } else { 
-         // do nothing
-      }
+      } 
+      
       printf("%d ", wonderousNumber);
       counter += 1;  
    }
