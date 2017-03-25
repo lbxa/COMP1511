@@ -6,13 +6,14 @@
 #include <stdlib.h>
 
 void sort(int *first, int *second, int *third);
+void swap(int *x, int *y);
 
 int main(int argc, char **argv) { 
 
 	int first, second, third; 
 	scanf ("%d %d %d", &first, &second, &third);
 	sort(&first, &second, &third);
-   printf("%d, %d, %d\n", first, second, third);
+   printf("%d\n%d\n%d\n", first, second, third);
 
 	return EXIT_SUCCESS;
 
@@ -38,8 +39,17 @@ void sort(int *first, int *second, int *third) {
 		
 	}
 
-   (*first) = array[0];
-	(*second) = array[1];
-	(*third) = array[2]; 
+   swap(first, &array[0]);
+   swap(second, &array[1]);
+   swap(third, &array[2]);
+
+}
+
+void swap(int *x, int *y) {
+
+	int tmp = '\0';
+   tmp  = (int)(*x);
+   (*x) = (int)(*y);
+   (*y) = (int)tmp;
 
 }

@@ -1,5 +1,5 @@
-/*
- *  doomsday.c
+ /*
+ *  doomsdayMkII.c
  *  A program to test a function dayOfWeek which determines which
  *  day of the week a particular date falls on.
  *  (only for dates after the start of the Gregorian calendar).
