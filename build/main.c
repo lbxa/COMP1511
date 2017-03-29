@@ -1,8 +1,11 @@
 /*
- *  Lucas & Jordan
- *  29/03/2017
- *  Simple server to run some amazing poetry... 
- */
+*  simpleServer.c
+*  1917 lab 4
+*
+*  Richard Buckland 28/01/11, 30/3/14.
+*  Licensed under Creative Commons SA-BY-NC 3.0, share freely.
+*
+*/
  
 #include <stdlib.h>
 #include <stdio.h>
@@ -68,10 +71,25 @@ void serveHTML(int socket) {
         "HTTP/1.1 200 OK\r\n"
         "Content-Type: text/html\r\n"
         "\r\n"
-        "<!DOCTYPE html>\n"
+        "<DOCTYPE html>\n"
         "<html>\n"
-        "   <head><title>Current Short Message</title></head>\n"
-        "   <body>Hello there</body>\n"
+        "  <head>\n"
+        "    <meta charset=\"utf-8\"/>\n"
+        "    <meta name=\"viewport\" content=\"width=device-width\"/>\n"
+        "    <style>\n"
+        "      h2 {text-decoration:underline; color: red;}\n"
+        "     p {color: blue;}\n"
+        "      body {background-color: rgb(250,250,250);}\n"
+        "    </style>\n"
+        "    <title>Poetry Server</title>\n"
+        "  </head>\n"
+        "  <header>\n"
+        "    <h1>Poetry Server</h1>\n"
+        "  </header>\n"
+        "  <body>\n"
+        "    <h2>Dear babycarrot</h2>\n"
+        "    <p>Babycarrot<br>Small<br>Ugly<br>Lives in the shadow of the carrot<br>Babycarrot</p>\n"
+        "  </body>\n"
         "</html>\n";
 
     // echo the http response to the console for debugging purposes
