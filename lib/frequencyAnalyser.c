@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <math.h>
 
 int main(int argc, char **argv) {
 
@@ -27,8 +28,8 @@ int main(int argc, char **argv) {
   }
 
   float percentage = 0.0;
-  printf("Total characters: %d\n", frequencyTotal);
-  printf("%-10s%-13s%-10s\n", "Letter", "Frequency", "Percentage (%)");
+  printf("Total characters: %d \n", frequencyTotal);
+  printf("%-10s %-13s %-10s \n", "Letter", "Frequency", "Percentage (%)");
 
   while (counter < 26) {
     percentage = 0.0;
@@ -38,9 +39,10 @@ int main(int argc, char **argv) {
     percentage = (float)letterFrequency[counter];
     percentage /= (float)frequencyTotal;
     percentage *= 100;
+    // Rounding towards ceiling (up ^)
+    percentage = ceilf(percentage * 100) / 100;
     
-    printf("%-10c%-13d", currentLetter, letterFrequencyAsInt);
-    printf("%0.2f\n", percentage);
+    printf("%-10c %-13d %-10.2f \n", currentLetter, letterFrequencyAsInt, percentage);
     
     counter++;
   }

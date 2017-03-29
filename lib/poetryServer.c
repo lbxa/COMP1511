@@ -33,6 +33,7 @@ int main (int argc, char* argv[]) {
     printf ("************************************\n");
  
     int serverSocket = makeServerSocket(DEFAULT_PORT);
+    // holds the actual request
     char request[REQUEST_BUFFER_SIZE];
     int numberServed = 0;
     while (numberServed < NUMBER_OF_PAGES_TO_SERVE) {

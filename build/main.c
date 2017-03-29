@@ -1,86 +1,166 @@
 /*
- *  Lucas & Jordan | All Rights Reserved (R)
- *  29/03/2017
- *  Frequency analysis....analyusing a files characterrs for interesting trends
- */
-
-#include <stdio.h>
+*  simpleServer.c
+*  1917 lab 4
+*
+*  Richard Buckland 28/01/11, 30/3/14.
+*  Licensed under Creative Commons SA-BY-NC 3.0, share freely.
+*
+*/
+ 
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include <assert.h>
-
-int main(int argc, char **argv) {
-
-  int letterFrequency[26] = {0};
-
-  char letter = getchar();
-
-  int frequencyTotal = 0;
-  int counter = 0;
-
-  while (letter != EOF) {
-    // C's automatic <char> to <int> conversion
-    if (letter >= 'a' && letter <= 'z') {
-      letterFrequency[letter - 'a']++;
+#include <netinet/in.h>
+#include <unistd.h>
+ 
+int waitForConnection (int serverSocket);
+int makeServerSocket (int portno);
+void serveHTML (int socket);
+ 
+#define SIMPLE_SERVER_VERSION 2.0
+#define REQUEST_BUFFER_SIZE 1000
+#define DEFAULT_PORT 7191
+#define NUMBER_OF_PAGES_TO_SERVE 10
+// after serving this many pages the server will halt
+ 
+int main (int argc, char* argv[]) {
+ 
+    printf ("************************************\n");
+    printf ("Starting simple server %f\n", SIMPLE_SERVER_VERSION);
+    printf ("Serving poetry since 2011\n");
+    printf ("Access this server at http://localhost:%d/\n", DEFAULT_PORT);
+    printf ("************************************\n");
+ 
+    int serverSocket = makeServerSocket(DEFAULT_PORT);
+    // holds the actual request
+    char request[REQUEST_BUFFER_SIZE];
+    int numberServed = 0;
+    while (numberServed < NUMBER_OF_PAGES_TO_SERVE) {
+        printf ("*** So far served %d pages ***\n", numberServed);
+ 
+        // STEP 1. wait for a request to be sent from a web browser, 
+        // then open a new connection for this conversation
+        int connectionSocket = waitForConnection(serverSocket);
+ 
+        // STEP 2. read the first line of the request
+        int bytesRead = recv (connectionSocket, request, sizeof(request) - 1, 0);
+        assert (bytesRead >= 0);
+        // check that we were able to read some data from the connection
+ 
+        // echo entire request to the console for debugging
+        printf (" *** Received http request ***\n %s\n", request);
+ 
+        // STEP 3. send the browser a simple html page using http
+        printf (" *** Sending http response ***\n");
+        serveHTML (connectionSocket);
+ 
+        // STEP 4. close the connection after sending the page- keep aust beautiful
+        close (connectionSocket);
+        ++numberServed;
     }
-    letter = getchar();
-    frequencyTotal++;
-  }
-
-  float percentage = 0.0;
-  printf("Total characters: %d\n", frequencyTotal);
-  printf("%-10s%-13s%-10s\n", "Letter", "Frequency", "Percentage (%)");
-
-  while (counter < 26) {
-    percentage = 0.0;
-    char currentLetter = counter + 'a';
-    int letterFrequencyAsInt = letterFrequency[counter];
-
-    percentage = (float)letterFrequency[counter];
-    percentage /= (float)frequencyTotal;
-    percentage *= 100;
-    
-    printf("%-10c%-13d", currentLetter, letterFrequencyAsInt);
-    printf("%0.2f\n", percentage);
-    
-    counter++;
-  }
-
-  /*
+ 
+    // close the server connection after we are done- keep aust beautiful
+    printf ("** shutting down the server **\n");
+    close (serverSocket);
   
-  Sample output
-
-  cat file.txt | ./main.o
-
-  Letter    Frequency    Percentage (%)
-  a         972          5.99
-  b         208          1.28
-  c         356          2.20
-  d         457          2.82
-  e         1583         9.76
-  f         267          1.65
-  g         277          1.71
-  h         608          3.75
-  i         1146         7.07
-  j         4            0.02
-  k         40           0.25
-  l         546          3.37
-  m         311          1.92
-  n         919          5.67
-  o         830          5.12
-  p         220          1.36
-  q         5            0.03
-  r         788          4.86
-  s         894          5.51
-  t         1012         6.24
-  u         311          1.92
-  v         139          0.86
-  w         167          1.03
-  x         31           0.19
-  y         159          0.98
-  z         1            0.01
-
-  */
-
-  return EXIT_SUCCESS;
-
+    return EXIT_SUCCESS;
 }
+ 
+void serveHTML(int socket) {
+    const char* message =
+        "HTTP/1.1 200 OK\r\n"
+        "Content-Type: text/html\r\n"
+        "\r\n"
+        "<DOCTYPE html>\n"
+        "<html>\n"
+        "  <head>\n"
+        "    <meta charset=\"utf-8\"/>\n"
+        "    <meta name=\"viewport\" content=\"width=device-width\"/>\n"
+        "    <style>\n"
+        "      h2 {text-decoration:underline; color: red;}\n"
+        "     p {color: blue;}\n"
+        "      body {background-color: rgb(250,250,250);}\n"
+        "    </style>\n"
+        "    <title>Poetry Server</title>\n"
+        "  </head>\n"
+        "  <header>\n"
+        "    <h1>Poetry Server</h1>\n"
+        "  </header>\n"
+        "  <body>\n"
+        "    <h2>Dear babycarrot</h2>\n"
+        "    <p>Babycarrot<br>Small<br>Ugly<br>Lives in the shadow of the carrot<br>Babycarrot</p>\n"
+        "  </body>\n"
+        "</html>\n";
+
+    // echo the http response to the console for debugging purposes
+    printf ("VVVV about to send this via http VVVV\n");
+    printf ("%s\n", message);
+    printf ("^^^^ end of message ^^^^\n");
+
+    // send the http response to the web browser which requested it
+    send (socket, message, strlen(message), 0);
+}
+ 
+// start the server listening on the specified port number
+int makeServerSocket (int portNumber) {
+ 
+    // create socket
+    int serverSocket = socket (AF_INET, SOCK_STREAM, 0);
+    assert (serverSocket >= 0);
+    // check there was no error in opening the socket
+ 
+    // bind the socket to the listening port  (7191 in this case)
+    struct sockaddr_in serverAddress;
+    serverAddress.sin_family      = AF_INET;
+    serverAddress.sin_addr.s_addr = INADDR_ANY;
+    serverAddress.sin_port        = htons (portNumber);
+ 
+    // tell the server to restart immediately after a previous shutdown
+    // even if it looks like the socket is still in use
+    // otherwise we might have to wait a little while before rerunning the
+    // server once it has stopped
+    const int optionValue = 1;
+    setsockopt (serverSocket, SOL_SOCKET, SO_REUSEADDR, &optionValue, sizeof (int));
+ 
+    int bindSuccess = bind (serverSocket, (struct sockaddr*)&serverAddress, sizeof (serverAddress));
+ 
+    assert (bindSuccess >= 0);
+    // if this assert fails wait a short while to let the operating
+    // system clear the port before trying again
+ 
+    return serverSocket;
+}
+ 
+// wait for a browser to request a connection,
+// returns the socket on which the conversation will take place
+int waitForConnection (int serverSocket) {
+ 
+    // listen for a connection
+    const int serverMaxBacklog = 10;
+    listen (serverSocket, serverMaxBacklog);
+ 
+    // accept the connection
+    struct sockaddr_in clientAddress;
+    socklen_t clientLen = sizeof (clientAddress);
+    int connectionSocket = accept (serverSocket, (struct sockaddr*)&clientAddress, &clientLen);
+    assert (connectionSocket >= 0);
+    // check for connection error
+ 
+    return connectionSocket;
+}
+
+/*
+this code calls these external networking functions
+try to work out what they do from seeing how they are used,
+then google them for full details. 
+
+recv
+close
+send
+socket
+setsockopt
+bind
+listen
+accept
+*/
