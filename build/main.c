@@ -1,132 +1,147 @@
 /*
- *  doomsday.c
- *  A program to test a function dayOfWeek which determines which
- *  day of the week a particular date falls on.
- *  (only for dates after the start of the Gregorian calendar).
- *
- *  Program stub created by Richard Buckland on 17/03/14
- *  This program by YOUR-NAME-HERE
- *  Freely licensed under Creative Commons CC-BY-3.0
- *
+ *  Lucas & Jordan
+ *  29/03/2017
+ *  Simple server to run some amazing poetry... 
  */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <math.h>
-#include <string.h>
-  
-#define THURSDAY 0
-#define FRIDAY   1
-#define SATURDAY 2
-#define SUNDAY   3
-#define MONDAY   4
-#define TUESDAY  5
-#define WEDNESDAY 6
-
-#define JANUARY 1
-#define FEBRUARY 2
-#define MARCH 3
-#define APRIL 4
-#define MAY 5
-#define JUNE 6
-#define JULY 7
-#define AUGUST 8
-#define SEPTEMBER 9
-#define OCTOBER 10
-#define NOVEMBER 11
-#define DECEMBER 12
-  
-#define TRUE 1
-#define FALSE 0
-#define DAYS_PER_WEEK 7
-
-int dayOfWeek (int doomsday, int leapYear, int month, int day);
-
-int main (int argc, char *argv[]) {
  
-   assert (dayOfWeek (THURSDAY,  FALSE,  4,  4) == THURSDAY);
-   assert (dayOfWeek (FRIDAY,    FALSE,  6,  6) == FRIDAY);
-   assert (dayOfWeek (MONDAY,    FALSE,  8,  8) == MONDAY);
-   assert (dayOfWeek (WEDNESDAY, FALSE, 10, 10) == WEDNESDAY);
-   assert (dayOfWeek (FRIDAY,    FALSE, 12, 12) == FRIDAY);
-   assert (dayOfWeek (THURSDAY,  FALSE,  9,  5) == THURSDAY);
-   assert (dayOfWeek (FRIDAY,    FALSE,  5,  9) == FRIDAY);
-   assert (dayOfWeek (SUNDAY,    FALSE,  7, 11) == SUNDAY);
-   assert (dayOfWeek (TUESDAY,   FALSE, 11,  7) == TUESDAY);
-   assert (dayOfWeek (WEDNESDAY, FALSE,  3,  7) == WEDNESDAY);
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <assert.h>
+#include <netinet/in.h>
+#include <unistd.h>
+ 
+int waitForConnection (int serverSocket);
+int makeServerSocket (int portno);
+void serveHTML (int socket);
+ 
+#define SIMPLE_SERVER_VERSION 2.0
+#define REQUEST_BUFFER_SIZE 1000
+#define DEFAULT_PORT 7191
+#define NUMBER_OF_PAGES_TO_SERVE 10
+// after serving this many pages the server will halt
+ 
+int main (int argc, char* argv[]) {
+ 
+    printf ("************************************\n");
+    printf ("Starting simple server %f\n", SIMPLE_SERVER_VERSION);
+    printf ("Serving poetry since 2011\n");
+    printf ("Access this server at http://localhost:%d/\n", DEFAULT_PORT);
+    printf ("************************************\n");
+ 
+    int serverSocket = makeServerSocket(DEFAULT_PORT);
+    char request[REQUEST_BUFFER_SIZE];
+    int numberServed = 0;
+    while (numberServed < NUMBER_OF_PAGES_TO_SERVE) {
+        printf ("*** So far served %d pages ***\n", numberServed);
+ 
+        // STEP 1. wait for a request to be sent from a web browser, 
+        // then open a new connection for this conversation
+        int connectionSocket = waitForConnection(serverSocket);
+ 
+        // STEP 2. read the first line of the request
+        int bytesRead = recv (connectionSocket, request, sizeof(request) - 1, 0);
+        assert (bytesRead >= 0);
+        // check that we were able to read some data from the connection
+ 
+        // echo entire request to the console for debugging
+        printf (" *** Received http request ***\n %s\n", request);
+ 
+        // STEP 3. send the browser a simple html page using http
+        printf (" *** Sending http response ***\n");
+        serveHTML (connectionSocket);
+ 
+        // STEP 4. close the connection after sending the page- keep aust beautiful
+        close (connectionSocket);
+        ++numberServed;
+    }
+ 
+    // close the server connection after we are done- keep aust beautiful
+    printf ("** shutting down the server **\n");
+    close (serverSocket);
+  
+    return EXIT_SUCCESS;
+}
+ 
+void serveHTML(int socket) {
+    const char* message =
+        "HTTP/1.1 200 OK\r\n"
+        "Content-Type: text/html\r\n"
+        "\r\n"
+        "<!DOCTYPE html>\n"
+        "<html>\n"
+        "   <head><title>Current Short Message</title></head>\n"
+        "   <body>Hello there</body>\n"
+        "</html>\n";
 
-   assert (dayOfWeek (THURSDAY,  FALSE,  4,  5) == FRIDAY);
-   assert (dayOfWeek (SATURDAY,  FALSE,  6,  5) == FRIDAY);
-   assert (dayOfWeek (MONDAY,    FALSE,  8,  9) == TUESDAY);
-   assert (dayOfWeek (WEDNESDAY, FALSE, 10,  9) == TUESDAY);
-   assert (dayOfWeek (FRIDAY,    FALSE, 12, 20) == SATURDAY);
-   assert (dayOfWeek (THURSDAY,  FALSE,  9,  9) == MONDAY);
-   assert (dayOfWeek (FRIDAY,    FALSE,  5,  5) == MONDAY);
-   assert (dayOfWeek (SUNDAY,    FALSE,  7,  7) == WEDNESDAY);
-   assert (dayOfWeek (TUESDAY,   FALSE, 11, 11) == SATURDAY);
-   assert (dayOfWeek (THURSDAY,  FALSE,  3, 30) == SATURDAY);
+    // echo the http response to the console for debugging purposes
+    printf ("VVVV about to send this via http VVVV\n");
+    printf ("%s\n", message);
+    printf ("^^^^ end of message ^^^^\n");
 
-   assert (dayOfWeek (TUESDAY,   FALSE,  2,  28) == TUESDAY);
-   assert (dayOfWeek (TUESDAY,   FALSE,  2,  27) == MONDAY);
-   assert (dayOfWeek (THURSDAY,  FALSE,  1,  3)  == THURSDAY);
-
-   printf ("all tests passed - You are awesome!\n");
-
-   return EXIT_SUCCESS;
+    // send the http response to the web browser which requested it
+    send (socket, message, strlen(message), 0);
+}
+ 
+// start the server listening on the specified port number
+int makeServerSocket (int portNumber) {
+ 
+    // create socket
+    int serverSocket = socket (AF_INET, SOCK_STREAM, 0);
+    assert (serverSocket >= 0);
+    // check there was no error in opening the socket
+ 
+    // bind the socket to the listening port  (7191 in this case)
+    struct sockaddr_in serverAddress;
+    serverAddress.sin_family      = AF_INET;
+    serverAddress.sin_addr.s_addr = INADDR_ANY;
+    serverAddress.sin_port        = htons (portNumber);
+ 
+    // tell the server to restart immediately after a previous shutdown
+    // even if it looks like the socket is still in use
+    // otherwise we might have to wait a little while before rerunning the
+    // server once it has stopped
+    const int optionValue = 1;
+    setsockopt (serverSocket, SOL_SOCKET, SO_REUSEADDR, &optionValue, sizeof (int));
+ 
+    int bindSuccess = bind (serverSocket, (struct sockaddr*)&serverAddress, sizeof (serverAddress));
+ 
+    assert (bindSuccess >= 0);
+    // if this assert fails wait a short while to let the operating
+    // system clear the port before trying again
+ 
+    return serverSocket;
+}
+ 
+// wait for a browser to request a connection,
+// returns the socket on which the conversation will take place
+int waitForConnection (int serverSocket) {
+ 
+    // listen for a connection
+    const int serverMaxBacklog = 10;
+    listen (serverSocket, serverMaxBacklog);
+ 
+    // accept the connection
+    struct sockaddr_in clientAddress;
+    socklen_t clientLen = sizeof (clientAddress);
+    int connectionSocket = accept (serverSocket, (struct sockaddr*)&clientAddress, &clientLen);
+    assert (connectionSocket >= 0);
+    // check for connection error
+ 
+    return connectionSocket;
 }
 
+/*
+this code calls these external networking functions
+try to work out what they do from seeing how they are used,
+then google them for full details. 
 
-// given the doomsday for a year, and whether or not it is a
-// leap year, this function will return the day of the week for any
-// given month and day in the year.
-
-   /*
-    *   Doomsdays:
-    *   Jan 3
-    *   Jan 4 [LEAP YEAR]
-    *   Feb 28 
-    *   Feb 29 [LEAP YEAR]
-    *   Apr 4 [4/4]
-    *   May 9 [9/5]
-    *   Jun 6 [6/6] 
-    *   Aug 8 [8/8]
-    *   Oct 10 [10/10]
-    *   Nov 11 [7/11]
-    *   Dec 12 [12/12]
-    */
-
-int dayOfWeek (int doomsday, int leapYear, int month, int day) {
-   int dayOfWeek = 0;
-   int thisMonthsDoomsdate = 0;
-   int anchorDay = day;
-   int closestDoomsday = doomsday;
-
-   // [YEAR + 1][DOOMSDATE, MONTH]
-   int doomsdatesCalendar[12][2] = {{3, JANUARY}, {28, FEBRUARY}, {7, MARCH}, 
-                                    {4, APRIL}, {9, MAY}, {6, JUNE}, {11, JULY}, 
-                                    {8, AUGUST}, {5, SEPTEMBER}, {10, OCTOBER}, 
-                                    {7, NOVEMBER}, {12, DECEMBER}};
-                            
-   for (int i = 0; i < (sizeof(doomsdatesCalendar)/sizeof(doomsdatesCalendar[0])); i++) {
-      int MONTH = 1;
-      int doomsdayMonth = doomsdatesCalendar[i][MONTH];
-      if (month == doomsdayMonth) {
-         int DAY = 0;
-         thisMonthsDoomsdate = doomsdatesCalendar[i][DAY];
-         int daysBetweenAnchorAndDoomsday = anchorDay - thisMonthsDoomsdate;
-         dayOfWeek = closestDoomsday + (daysBetweenAnchorAndDoomsday % DAYS_PER_WEEK);
-         /* 
-          * When the difference between the month's doomsday and the anchor day is |-4|
-          * the week offsets break the algorithm. This is how to avoid that. 
-          */
-         if ((daysBetweenAnchorAndDoomsday == 4) || (daysBetweenAnchorAndDoomsday == -4)) {
-            dayOfWeek += DAYS_PER_WEEK;
-            if (dayOfWeek > DAYS_PER_WEEK) {
-               dayOfWeek %= DAYS_PER_WEEK;
-            }
-         }
-      }
-   }
-   return dayOfWeek;
-}
+recv
+close
+send
+socket
+setsockopt
+bind
+listen
+accept
+*/
