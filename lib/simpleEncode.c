@@ -38,7 +38,7 @@ int main (int argc, char *argv[]) {
    while (plainCharacter != STOP) {
 
       int encodedCharacter = encode (plainCharacter, permutation);
-      printf ("%c\n", encodedCharacter);
+      printf ("%c", encodedCharacter);
       plainCharacter = getchar();
 
    }
