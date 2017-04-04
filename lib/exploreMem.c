@@ -34,10 +34,10 @@ int main(int argc, const char * argv[]) {
    
    printf("%-20s%-20s%-20s\n", "[Unsigned Type]", "Memory (bytes)", 
    "Stack location");
-   printf("%-20s%-20d0x%-20p\n", "Long", sizeof(ul), &ul);
-   printf("%-20s%-20d0x%-20p\n", "Int", sizeof(ui), &ui);
-   printf("%-20s%-20d0x%-20p\n", "Long Long", sizeof(ull), &ull);
-   printf("%-20s%-20d0x%-20p\n", "Short", sizeof(us), & us);
+   printf("%-20s%-20ld0x%-20p\n", "Long", sizeof(ul), &ul);
+   printf("%-20s%-20ld0x%-20p\n", "Int", sizeof(ui), &ui);
+   printf("%-20s%-20ld0x%-20p\n", "Long Long", sizeof(ull), &ull);
+   printf("%-20s%-20ld0x%-20p\n", "Short", sizeof(us), & us);
    printf("\n");
    
    signed long sl       = 4;
@@ -47,10 +47,10 @@ int main(int argc, const char * argv[]) {
    
    printf("%-20s%-20s%-20s\n", "[Signed Type]", "Memory (bytes)", 
    "Stack location");
-   printf("%-20s%-20d0x%-20p\n", "Long", sizeof(sl), &sl);
-   printf("%-20s%-20d0x%-20p\n", "Int", sizeof(si), &si);
-   printf("%-20s%-20d0x%-20p\n", "Long Long", sizeof(sll), &sll);
-   printf("%-20s%-20d0x%-20p\n", "Short", sizeof(ss), & ss);
+   printf("%-20s%-20ld0x%-20p\n", "Long", sizeof(sl), &sl);
+   printf("%-20s%-20ld0x%-20p\n", "Int", sizeof(si), &si);
+   printf("%-20s%-20ld0x%-20p\n", "Long Long", sizeof(sll), &sll);
+   printf("%-20s%-20ld0x%-20p\n", "Short", sizeof(ss), & ss);
    printf("\n");
  
    long l       = 8;
@@ -60,10 +60,10 @@ int main(int argc, const char * argv[]) {
    
    printf("%-20s%-20s%-20s\n", "[Generic Types]", "Memory (bytes)", 
    "Stack location");
-   printf("%-20s%-20d0x%-20p\n", "Long", sizeof(l), &l);
-   printf("%-20s%-20d0x%-20p\n", "Int", sizeof(i), &i);
-   printf("%-20s%-20d0x%-20p\n", "Long Long", sizeof(ll), &ll);
-   printf("%-20s%-20d0x%-20p\n", "Short", sizeof(s), & s);
+   printf("%-20s%-20ld0x%-20p\n", "Long", sizeof(l), &l);
+   printf("%-20s%-20ld0x%-20p\n", "Int", sizeof(i), &i);
+   printf("%-20s%-20ld0x%-20p\n", "Long Long", sizeof(ll), &ll);
+   printf("%-20s%-20ld0x%-20p\n", "Short", sizeof(s), & s);
    printf("\n");
  
    float f = 3.1;
