@@ -1,5 +1,5 @@
 #Makefile: Lucas Barbosa
-C_FLAGS= -Wall -Werror -O
+C_FLAGS= -Wall -Werror
 C_COMP=gcc
 
 MAIN_SRC=$(wildcard *.c)
