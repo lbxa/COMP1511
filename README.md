@@ -1,13 +1,13 @@
 # HS1917
 Feel free to grab some source code.
-<br>
+<hr>
 
-# ~/lib/
-Contains all the source code files all activities.
-# ~/bin/
-Miscellaneous or extra files with no specific importance.
-# ~/build/
-Directory which contains latest build and makefiles. 
+~/lib/<br>
+Contains all the source code files all activities.<br>
+~/bin/<br>
+Miscellaneous or extra files with no specific importance.<br>
+~/build/<br>
+Directory which contains latest build and makefiles.<br><br>
 
 <hr>
 
