@@ -26,7 +26,6 @@ int main (int argc, char *argv[]) {
 
    char permutation[ALPHABET_SIZE];
 
-   printf("Insert permutation: ");
    scanf ("%s", permutation);
    
    // getchar() reads and returns one character from the keyboard
@@ -65,7 +64,6 @@ void testEncode (void) {
    assert (encode ('b',"qwertyuiopasdfghjklzxcvbnm") == 'w');
    assert (encode ('z',"qwertyuiopasdfghjklzxcvbnm") == 'm');
 
-   printf("All tests passed.\n");
 }
 
 char encode (int plainChar, char *permuation) {

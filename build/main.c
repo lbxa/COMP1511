@@ -1,158 +1,115 @@
-/*
- *  Lucas & Jordan | All Rights Reserved (R)
- *  29/03/2017
- *  Frequency analyser 2....analyusing a files characterrs for interesting 
- *  trends, v2 includes capital letters
- */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <math.h>
-
-#define WHITESPACE_ASCII 32
-#define LF_CHAR 10
-
-int main(int argc, char **argv) {
-
-   int letterFrequency[26] = {0};
-
-   // statistical data
-   int totalCapitalLetters = 0;
-   int totalLowerCaseLetters = 0;
-   int totalWhiteSpace = 0;
-   int totalLineFeedCharacters = 0;
-   int vowelTotal = 0;
-
-   char letter = getchar();
-
-   int frequencyTotal = 0;
-   int counter = 0;
-
-   while (letter != EOF) {
-
-      if (letter == WHITESPACE_ASCII) {
-         totalWhiteSpace++;
-      }
-
-      if (letter == LF_CHAR) {
-         totalLineFeedCharacters++;
-      }
-
-      // C's automatic <char> to <int> conversion
-      if (letter >= 'a' && letter <= 'z') {
-
-         letterFrequency[letter - 'a']++;
-         totalLowerCaseLetters++;
-
-         if ((letter == 'a') || 
-             (letter == 'e') ||
-             (letter == 'i') ||
-             (letter == 'o') ||
-             (letter == 'u')) {
-
-            vowelTotal++;
-
-         }
-
-      }
-
-      if (letter >= 'A' && letter <= 'Z') {
-
-         letterFrequency[letter - 'A']++;
-         totalCapitalLetters++;
-
-         if ((letter == 'A') || 
-             (letter == 'E') ||
-             (letter == 'I') ||
-             (letter == 'O') ||
-             (letter == 'U')) {
-
-            vowelTotal++;
-
-         }
-
-      }
-
-      letter = getchar();
-      frequencyTotal++;
-
-  }
-
-   float percentage = 0.0;
-   printf("%-10s %-13s %-10s \n", "Letter", "Frequency", "Percentage (%)");
-
-   while (counter < 26) {
-
-      percentage = 0.0;
-      char currentLetter = counter + 'a';
-      int letterFrequencyAsInt = letterFrequency[counter];
-
-      percentage = (float)letterFrequencyAsInt;
-      percentage /= (float)frequencyTotal;
-      percentage *= 100;
-      // Rounding towards ceiling (up ^)
-      percentage = ceilf(percentage * 100) / 100;
-
-      printf("%-10c %-13d %-10.2f \n", currentLetter, 
-           letterFrequencyAsInt, percentage);
-
-      counter++;
-  }
-
-  float totalVowelPercentage = (float)vowelTotal;
-  totalVowelPercentage /= (float)frequencyTotal;
-  totalVowelPercentage *= 100;
-
-  printf("Total characters             : [%d] \n", frequencyTotal);
-  printf("Total Lower Case characters  : [%d] \n", totalLowerCaseLetters);
-  printf("Total Capitalised characters : [%d] \n", totalCapitalLetters);
-  printf("Total Percentage of vowels   : [%f] \n", totalVowelPercentage);
-  printf("Total White Space characters : [%d] \n", totalWhiteSpace);
-  printf("Total Line Feed characters   : [%d] \n", totalLineFeedCharacters);
-
-  /*
-  
-  Sample output
-
-  cat hamlet.txt | ./main.o
-
-   Letter     Frequency     Percentage (%) 
-   a          9863          5.52       
-   b          1891          1.06       
-   c          2748          1.54       
-   d          5014          2.81       
-   e          17900         10.01      
-   f          2779          1.56       
-   g          2485          1.39       
-   h          8692          4.87       
-   i          8816          4.93       
-   j          45            0.03       
-   k          1285          0.72       
-   l          5908          3.31       
-   m          4259          2.39       
-   n          8377          4.69       
-   o          11459         6.41       
-   p          2130          1.20       
-   q          207           0.12       
-   r          7976          4.46       
-   s          8299          4.65       
-   t          12098         6.77       
-   u          4960          2.78       
-   v          623           0.35       
-   w          3049          1.71       
-   x          247           0.14       
-   y          3245          1.82       
-   z          56            0.04       
-   Total characters             : [178843] 
-   Total Lower Case characters  : [124487] 
-   Total Capitalised characters : [9924] 
-   Total Percentage of vowels   : [29.633814] 
-   Total White Space characters : [31173] 
-   Total Line Feed characters   : [5302] 
-
-  */
-
-  return EXIT_SUCCESS;
-
-}
+    /*
+     *  chessboard.c
+     *  create a 512x512 BMP of a chessboard, with user specified size (in pixels)
+     *  of the black and white squares on the board.  bottom right square must be white.
+     *
+     *  Created by Richard Buckland on 14/04/11, edited 5/4/14
+     *  Licensed under Creative Commons BY 3.0.
+     *
+     */
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <assert.h>
+     
+    #define BYTES_PER_PIXEL 3
+    #define BITS_PER_PIXEL (BYTES_PER_PIXEL*8)
+    #define NUMBER_PLANES 1
+    #define PIX_PER_METRE 2835
+    #define MAGIC_NUMBER 0x4d42
+    #define NO_COMPRESSION 0
+    #define OFFSET 54
+    #define DIB_HEADER_SIZE 40
+    #define NUM_COLORS 0
+     
+    #define SIZE 512
+    #define BMP_FILE "chess.bmp"
+     
+    typedef unsigned char  bits8;
+    typedef unsigned short bits16;
+    typedef unsigned int   bits32;
+     
+    void writeHeader (FILE *file);
+     
+    int main (int argc, char *argv[]) {
+     
+       // check that the types have the size i'm relying on here
+       assert (sizeof(bits8)  == 1);
+       assert (sizeof(bits16) == 2);
+       assert (sizeof(bits32) == 4);
+     
+       FILE *outputFile;
+       int squareSize;
+     
+       outputFile = fopen(BMP_FILE, "wb");
+       assert ((outputFile!=NULL) && "Cannot open file");
+     
+       writeHeader(outputFile);
+     
+       printf ("Enter square size (must be a factor of %d): \n", SIZE);
+       scanf ("%d", &squareSize);
+       assert (SIZE % squareSize == 0);
+     
+       int numBytes = (SIZE * SIZE * BYTES_PER_PIXEL);
+       int pos = 0;
+       bits8 byte;
+       while (pos < numBytes) {
+          byte = 0;
+          fwrite (&byte, sizeof byte, 1, outputFile);
+          pos++;
+       }
+       fclose(outputFile);
+     
+       return EXIT_SUCCESS;
+    }
+     
+    void writeHeader (FILE *file) {
+       assert(sizeof (bits8) == 1);
+       assert(sizeof (bits16) == 2);
+       assert(sizeof (bits32) == 4);
+     
+       bits16 magicNumber = MAGIC_NUMBER;
+       fwrite (&magicNumber, sizeof magicNumber, 1, file);
+     
+       bits32 fileSize = OFFSET + (SIZE * SIZE * BYTES_PER_PIXEL);
+       fwrite (&fileSize, sizeof fileSize, 1, file);
+     
+       bits32 reserved = 0;
+       fwrite (&reserved, sizeof reserved, 1, file);
+     
+       bits32 offset = OFFSET;
+       fwrite (&offset, sizeof offset, 1, file);
+     
+       bits32 dibHeaderSize = DIB_HEADER_SIZE;
+       fwrite (&dibHeaderSize, sizeof dibHeaderSize, 1, file);
+     
+       bits32 width = SIZE;
+       fwrite (&width, sizeof width, 1, file);
+     
+       bits32 height = SIZE;
+       fwrite (&height, sizeof height, 1, file);
+     
+       bits16 planes = NUMBER_PLANES;
+       fwrite (&planes, sizeof planes, 1, file);
+     
+       bits16 bitsPerPixel = BITS_PER_PIXEL;
+       fwrite (&bitsPerPixel, sizeof bitsPerPixel, 1, file);
+     
+       bits32 compression = NO_COMPRESSION;
+       fwrite (&compression, sizeof compression, 1, file);
+     
+       bits32 imageSize = (SIZE * SIZE * BYTES_PER_PIXEL);
+       fwrite (&imageSize, sizeof imageSize, 1, file);
+     
+       bits32 hResolution = PIX_PER_METRE;
+       fwrite (&hResolution, sizeof hResolution, 1, file);
+     
+       bits32 vResolution = PIX_PER_METRE;
+       fwrite (&vResolution, sizeof vResolution, 1, file);
+     
+       bits32 numColors = NUM_COLORS;
+       fwrite (&numColors, sizeof numColors, 1, file);
+     
+       bits32 importantColors = NUM_COLORS;
+       fwrite (&importantColors, sizeof importantColors, 1, file);
+     
+    }
