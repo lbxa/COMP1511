@@ -119,8 +119,8 @@ int dayOfWeek (int doomsday, int leapYear, int month, int day) {
 
 int getAnchor (int leapYear, int month) {
    int anchorDay = 0;
-   // [YEAR + 1][DOOMSDATE, MONTH]
-   int MONTHS = 12; //int MONTH_DAY = 2;
+   // [MONTH][DOOMSDATE, MONTH]
+   int MONTHS = 12;
    int doomsdayCalendar[12][2] = {{JAN_DOOM, JANUARY}, 
                                   {FEB_DOOM, FEBRUARY}, 
                                   {MAR_DOOM, MARCH}, 
@@ -140,19 +140,15 @@ int getAnchor (int leapYear, int month) {
       if ( month == doomsdayCalendar[i][CURR_MONTH] ) {
          
          anchorDay = doomsdayCalendar[i][CURR_DAY];
-         
+
          if ( leapYear == TRUE && 
             ( month == JANUARY || month == FEBRUARY ) ) {
             anchorDay += LEAP_YEAR_EXTRA;
          }
-
       }
-
       i++;
    }
-
    return anchorDay;
-
 }
 
 int absVal ( int negNum ) {
