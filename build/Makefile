@@ -1,6 +1,12 @@
 #Makefile: Lucas Barbosa
-C_FLAGS= -Wall -Werror
+C_FLAGS= -Wall -Werror -std=c99 -O -m64 
 C_COMP=gcc
+
+# -Wall 	   : Warning[all]
+# -Werror    : Warning[error]
+# -std=c99   : C99 ANSI & C99 ISO standard
+# -O         : Compilation optimiser
+# -m64       : 64 bit architecture
 
 MAIN_SRC=$(wildcard *.c)
 MAIN_O=main.o
