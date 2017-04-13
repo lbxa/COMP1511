@@ -3,11 +3,11 @@ Feel free to grab some source code.
 <hr>
 
 ~/lib/<br>
-Contains all the source code files all activities.<br>
+All the source code.<br>
 ~/bin/<br>
-Miscellaneous or extra files with no specific importance.<br>
+Miscellaneous or extra stuff.<br>
 ~/build/<br>
-Directory which contains latest build and makefiles.<br><br>
+Contains latest build and makefiles.<br><br>
 
 <hr>
 
