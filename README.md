@@ -2,11 +2,11 @@
 Feel free to grab some source code.
 <hr>
 
-<strong><em>~/lib/</em></strong><br>
+<em><strong>\~/lib/</strong></em><br>
 All the source code.<br>
-<strong><em>~/bin/</em></strong><br>
+<em><strong>\~/bin/</strong></em><br>
 Miscellaneous or extra stuff.<br>
-<strong><em>~/build/</em></strong><br>
+<em><strong>\~/build/</strong></em><br>
 Contains latest build and makefiles.<br>
 
 <hr>
