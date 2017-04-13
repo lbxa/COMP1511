@@ -127,7 +127,7 @@ int main (int argc, char *argv[]) {
    //Rahul Kumar
    assert (dayOfWeek (MONDAY, TRUE, 2, 2) == TUESDAY); 
    // Lucas Barbosa
-   assert (dayOfWeek (MONDAY, FALSE, 12, 4) == MONDAY);
+   assert (dayOfWeek (MONDAY, FALSE, 12, 4) == SUNDAY);
 
    printf ("all tests passed - You are awesome!\n");
 
