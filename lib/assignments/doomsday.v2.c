@@ -8,6 +8,11 @@
  *  This program by YOUR-NAME-HERE
  *  Freely licensed under Creative Commons CC-BY-3.0
  *
+ *  IMPROVEMENTS in Mark II:
+ *
+ *  - <getAnchor()> does not really on lines of if/else logic blocks.
+ *  - <dayOfWeek>   also does not really on likes of if/else logic blocks. 
+ *  - Reduced amount of lines through better algorithms.
  */
   
 #include <stdio.h>
