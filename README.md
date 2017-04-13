@@ -2,12 +2,12 @@
 Feel free to grab some source code.
 <hr>
 
-~/lib/<br>
-Contains all the source code files all activities.<br>
-~/bin/<br>
-Miscellaneous or extra files with no specific importance.<br>
-~/build/<br>
-Directory which contains latest build and makefiles.<br><br>
+<em><strong>\~/lib/</strong></em><br>
+All the source code.<br>
+<em><strong>\~/bin/</strong></em><br>
+Miscellaneous or extra stuff.<br>
+<em><strong>\~/build/</strong></em><br>
+Contains latest build and makefiles.<br>
 
 <hr>
 
