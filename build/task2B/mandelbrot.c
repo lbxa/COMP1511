@@ -27,6 +27,8 @@ static void serveHTML        (int socket);
 #define REQUEST_BUFFER_SIZE 1000
 #define DEFAULT_PORT 1917
 #define NUMBER_OF_PAGES_TO_SERVE 10
+#define BYTES_PER_PIXEL 3
+#define BITS_PER_PIXEL (BYTES_PER_PIXEL*8)
 // after serving this many pages the server will halt
 
 //=========================================//
@@ -38,11 +40,21 @@ static void serveHTML        (int socket);
 
 #define MAX_STEPS 256
 #define MAX_DISTANCE 2
+#define ORIGIN 0
+
+typedef struct _complex_number {
+    double real;
+    double imaginary;
+} ComplexNumber;
+
+double square    (double base);
+double euclidean (double x1, double y1, double x2, double y2);
+int escapeSteps  (double x, double y);
 
 
 //===============URL PARSING===============//
 
-typedef struct _triordinate {
+typedef struct _tri_ordinate {
     double x;
     double y;
     int z;
@@ -81,11 +93,13 @@ int main (int argc, char *argv[]) {
         // were we able to read any data from the connection?
 
         // print entire request to the console 
-        printf (" *** Received http request ***\n %s\n", request);
+        printf ("*** Received http request ***\n %s\n", request);
 
         //send the browser a simple html page using http
-        printf (" *** Sending http response ***\n");
-        serveHTML(connectionSocket);
+        printf ("*** Sending http response ***\n");
+
+        //serveHTML(connectionSocket);
+        //serveBMP(connectionSocket);
 
         // close the connection after sending the page- keep aust beautiful
         close(connectionSocket);
@@ -103,9 +117,28 @@ int main (int argc, char *argv[]) {
 //=============SERVER & CLIENT=============//
 
 inline void serveBMP (int socket) {
+    
+    // 1) Send HTTP response message
+    char *httpMSG = "HTTP/1.0 200 OK\r\n"
+                    "Content-Type: image/bmp\r\n"
+                    "\r\n";
+    write(socket, httpMSG, strlen(httpMSG));
 
-    // now send the BMP
-    unsigned char bmp[] = {
+    // 2) prepare the BMP header (54 bytes)
+    unsigned char bmpHeader[] = {
+        'B' , 'M' , 0x5a, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x36, 0x00, 0x00, 0x00, 0x28, 0x00,
+        0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x02, 
+        0x00, 0x00, 0x01, 0x00, 0x18, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x20, 0x00, 0x36, 0x00, 0x0b, 0x13,
+        0x00, 0x00, 0x0b, 0x13, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    };
+
+    write(socket, bmpHeader, sizeof(bmpHeader));
+
+    // 3) now send the BMP data with mandelbrot art
+    unsigned char bmpData[] = {
         0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
         0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
         0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
@@ -120,7 +153,7 @@ inline void serveBMP (int socket) {
         0x00,0x0d
     };
 
-    write (socket, bmp, sizeof(bmp));
+    write (socket, bmpData, sizeof(bmpData));
 }
 
 // start the server listening on the specified port number
@@ -208,21 +241,50 @@ static void serveHTML (int socket) {
 //================Mandelbrt================//
 
 int escapeSteps(double x, double y) {
-    int n = 0;
-    int ok_flag = TRUE;
-    double zx = 0, zy = 0;
-    double prevZx, prevZy;
-    while ((sqrt((zx*zx)+(zy*zy)) <= MAX_DISTANCE) && ok_flag == TRUE) {
-        prevZx = zx;
-        prevZy = zy;
-        zx = (prevZx*prevZx)-(prevZy*prevZy)+x;
-        zy = ((2*prevZx)*prevZy)+y;
-        n++;
-        if (n >= MAX_STEPS) {
-            ok_flag = FALSE;
-        }
+    ComplexNumber Z;
+    Z.real      = 0;
+    Z.imaginary = 0;
+
+    ComplexNumber C;
+    C.real      = x;
+    C.imaginary = y;
+
+    int i = 0;
+    double dist = 0;
+    while ((i < MAX_STEPS) && (dist <= MAX_DISTANCE)) {
+        double tmpZReal = Z.real;
+        Z.real = square(Z.real) - square(Z.imaginary) + C.real;
+        Z.imaginary = 2 * (tmpZReal * Z.imaginary) + C.imaginary;
+        dist = euclidean(ORIGIN, ORIGIN, Z.real, Z.imaginary);
+        i++;
     }
-    return n;
+    int numberOfSteps = i;
+    return numberOfSteps;
 }
+
+double euclidean(double x1, double y1, double x2, double y2) {
+    return sqrt(square(y2 - y1) + square(x2 - x1));
+}
+
+double square(double base) {
+    return base * base;
+}
+
+//===============URL PARSING===============//
+
+triordinate extract (char *message) {
+    
+    triordinate searchValues;
+    
+    sscanf(message, "http://localhost:7191/tile_x-%lf_y%lf_z%d.bmp", 
+           &searchValues.x, &searchValues.y, &searchValues.z);
+    
+    triordinate returnValues;
+    returnValues.x = searchValues.x;
+    returnValues.y = searchValues.y;
+    returnValues.z = searchValues.z;
+    return returnValues;
+}
+
 
 //=========================================//

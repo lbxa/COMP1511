@@ -1,80 +1,48 @@
-/* 
- * Jordan and Lucas
- * 5/04/2017
- * this program finds the amount of steps it takes to
- * escape the mandelbrot set with a given set of coords
- */
-
+// extract.c
+// Jordan and Lucas
+// funtions and types used to extract x,y,z values from a
+// string containing a url of the form
+// "http://almondbread.cse.unsw.edu.au:7191/tile_x3.14_y-0.141_z5.bmp"
+// initially by richard buckland
+// 12 April 2017
+ 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <assert.h>
-#include <math.h>
+ 
+typedef struct _triordinate {
+   double x;
+   double y;
+   int z;
+} triordinate;
+ 
+triordinate extract (char *message);
 
-#define MAX_STEPS 256
-#define MAX_DISTANCE 2
-#define ORIGIN 0
-
-typedef struct _complex_number {
-    double real;
-    double imaginary;
-} ComplexNumber;
-
-double square    (double base);
-double euclidean (double x1, double y1, double x2, double y2);
-int escapeSteps  (double x, double y);
-
-
-int main(void) {
-
-    int stepsRes = escapeSteps(-1, -1);
-    printf("%d\n", stepsRes);
-
+int main (int argc, char *argv[]) {
+    
+    char * message = "http://almondbread.cse.unsw.edu.au:7191/tile_x3.14_y-0.141_z5.bmp";
+ 
+    triordinate dat = extract(message); //struct we need to use for values
+ 
+    printf ("dat is (%f, %f, %d)\n", dat.x, dat.y, dat.z);
+ 
+    assert (dat.x == 3.14);
+    assert (dat.y == -0.141);
+    assert (dat.z == 5);
+ 
     return EXIT_SUCCESS;
 }
 
-int escapeSteps(double x, double y) {
-    
-    /*
-     *  ƒ[c](z) = (z)^2 + c
-     *  c = a + bi
-     *  dist = z
-     *  IF dist <= MAX_DISTANCE && steps <= 256:
-     *      (a + bi)^2 = a^2 + 2abi - b^2
-     *      in which ƒ[c](z) = a^2 - b^2 + 2abi + a + bi
-     *      sub in x & y
-     *      ƒ[c](z) = x^2 - y^2 + 2xyi + x + yi
-     *  ENDIF
-     */
+triordinate extract (char *message) {
+    triordinate searchValues;
 
-    ComplexNumber Z;
-    Z.real      = 0;
-    Z.imaginary = 0;
+    sscanf(message, "http://almondbread.cse.unsw.edu.au:7191/tile_x%lf_y%lf_z%d.bmp",
+           &searchValues.x, &searchValues.y, &searchValues.z);
 
-    ComplexNumber C;
-    C.real      = x;
-    C.imaginary = y;
-
-    int i = 0;
-    double dist = 0;
-
-    while ((i < MAX_STEPS) && (dist <= MAX_DISTANCE)) {
-        
-        double tmpZReal = Z.real;
-        // Real: x^2 - y^2 + x
-        Z.real = square(Z.real) - square(Z.imaginary) + C.real;
-        // Imaginary: 2xy + y
-        Z.imaginary = 2 * (tmpZReal * Z.imaginary) + C.imaginary;
-        dist = euclidean(ORIGIN, ORIGIN, Z.real, Z.imaginary);
-        i++;
-    }
-    int numberOfSteps = i;
-    return numberOfSteps;
-}
-
-double euclidean(double x1, double y1, double x2, double y2) {
-    return sqrt(square(y2 - y1) + square(x2 - x1));
-}
-
-double square(double base) {
-    return base * base;
+    triordinate returnValues;
+    returnValues.x = searchValues.x;
+    returnValues.y = searchValues.y;
+    returnValues.z = searchValues.z;
+    return returnValues;
 }

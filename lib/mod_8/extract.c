@@ -21,7 +21,6 @@ typedef struct _triordinate {
 triordinate extract (char *message);
 
 double myAtoD (char *message);
- 
 long myAtoL (char *message); 
 
 int main (int argc, char *argv[]) {
@@ -40,14 +39,15 @@ int main (int argc, char *argv[]) {
 }
 
 triordinate extract (char *message) {
-    double datax, datay;
-    int dataz;
-    sscanf(message, "http://almondbread.cse.unsw.edu.au:7191/tile_x%lf_y%lf_z%d.bmp", &datax,&datay,&dataz);
+    triordinate searchValues;
+
+    sscanf(message, "http://almondbread.cse.unsw.edu.au:7191/tile_x%lf_y%lf_z%d.bmp",
+           &searchValues.x, &searchValues.y, &searchValues.z);
 
     triordinate returnValues;
-    returnValues.x = datax;
-    returnValues.y = datay;
-    returnValues.z = dataz;
+    returnValues.x = searchValues.x;
+    returnValues.y = searchValues.y;
+    returnValues.z = searchValues.z;
     return returnValues;
 }
 

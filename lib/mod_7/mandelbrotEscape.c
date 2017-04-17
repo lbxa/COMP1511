@@ -66,6 +66,7 @@ int escapeSteps(double x, double y) {
         dist = euclidean(ORIGIN, ORIGIN, Z.real, Z.imaginary);
         i++;
     }
+    
     int numberOfSteps = i;
     return numberOfSteps;
 }
