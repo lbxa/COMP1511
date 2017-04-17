@@ -23,7 +23,6 @@ double square    (double base);
 double euclidean (double x1, double y1, double x2, double y2);
 int escapeSteps  (double x, double y);
 
-
 int main(void) {
 
     int stepsRes = escapeSteps(-1, -1);
