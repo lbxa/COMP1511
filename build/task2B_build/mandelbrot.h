@@ -7,7 +7,5 @@
  *
  */
 
-#define MAX_STEPS 256
-#define MAX_DISTANCE 2
-
 int escapeSteps (double x, double y);
+
