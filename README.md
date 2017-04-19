@@ -1,5 +1,5 @@
 # HS1917
-Feel free to grab some source code.
+Feel free to grab some source code, at your own risk of plagarism.
 <hr>
 
 <em><strong>\~/lib/</strong></em><br>
