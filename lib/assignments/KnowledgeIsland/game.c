@@ -1,4 +1,4 @@
-#include "Game-1.07.h"
+#include "game.h"
 #include "mechanicalTurk.h"
 #include <stdio.h>
 #include <stdlib.h>
