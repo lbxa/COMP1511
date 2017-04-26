@@ -11,4 +11,4 @@ Contains latest build and makefiles.<br>
 
 <hr>
 
-Andrew YU | Jordan Huynh | HUANg, alex | Lb
+Andrew YU | Jordan Huynh | HUANg, alex | Lb | SebastienHiggs
