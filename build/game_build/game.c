@@ -10,7 +10,15 @@ typedef struct _game * Game;
 
 typedef struct _game { 
    int currentTurn;
- } game;
+ } Game;
+
+typedef struct _campus {
+  
+} Campus;
+
+typedef struct _hex {
+  
+} Hex;
 
 /* **** Functions which change the game aka SETTERS **** */
 // make a new game, given the disciplines produced by each
@@ -26,7 +34,7 @@ typedef struct _game {
 // so to create the default game as shown on the badly drawn map:
 //
 
-#define DEFAULT_DISCIPLINES {STUDENT_BQN, STUDENT_MMONEY, STUDENT_MJ, \
+#define DEFAULT_DISCIPLINES {STUDENT_BQN, STUDENT_MMONEY, STUDENT_MJ,	\
 STUDENT_MMONEY, STUDENT_MJ, STUDENT_BPS, STUDENT_MTV, \
 STUDENT_MTV, STUDENT_BPS,STUDENT_MTV, STUDENT_BQN, \
 STUDENT_MJ, STUDENT_BQN, STUDENT_THD, STUDENT_MJ, \
