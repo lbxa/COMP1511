@@ -1,3 +1,10 @@
+// !!!
+// !!!
+
+// DON'T CHANGE THIS FILE
+
+// !!!
+// !!!
 
 /*
  *  Game.h
@@ -16,21 +23,21 @@
  *  Licensed under Creative Commons SA-BY-NC 3.0.  
  *
  */
-
+ 
 #define NUM_UNIS 3
-
+ 
 // player ID of each university
 #define NO_ONE 0
 #define UNI_A 1
 #define UNI_B 2
 #define UNI_C 3
-
+ 
 // contents of an ARC
 #define VACANT_ARC 0
 #define ARC_A 1
 #define ARC_B 2
 #define ARC_C 3
-
+ 
 // contents of a VERTEX
 #define VACANT_VERTEX 0  
 #define CAMPUS_A 1
@@ -39,7 +46,7 @@
 #define GO8_A 4
 #define GO8_B 5
 #define GO8_C 6
-
+ 
 // action codes
 #define PASS 0
 #define BUILD_CAMPUS 1
@@ -49,7 +56,7 @@
 #define OBTAIN_PUBLICATION 5
 #define OBTAIN_IP_PATENT 6
 #define RETRAIN_STUDENTS 7
-
+ 
 // disciplines
 #define STUDENT_THD 0
 #define STUDENT_BPS 1
@@ -57,29 +64,29 @@
 #define STUDENT_MJ  3
 #define STUDENT_MTV 4
 #define STUDENT_MMONEY 5
-
+ 
 #define NUM_REGIONS 19
 #define PATH_LIMIT 150
-
+ 
 #define TRUE 1
 #define FALSE 0
-
+ 
 typedef struct _game * Game;
-
+ 
 // your team designs this type not us
 // store in this struct all the things you might want to know about
 // the game so you can write the interface functions in this header
 // eg you might want to store the current turn number (so i've put
 // it in for you as an example but take it out if you don't want it)
-
+ 
 // in your Game.c include the details of the data
 // you want to store in the _game struct eg
-
+ 
 // typedef struct _game { 
 //   int currentTurn;
 //   ... more stuff in here
 // } game;
-
+ 
 // a path is a sequence of L=left R=right B=back steps
 // starting from the initial campus of player 1 / A at the top 
 // of the map facing inwards represented as a string of length 
@@ -92,7 +99,7 @@ typedef struct _game * Game;
 // exceed PATH_LIMIT.  Every edge in the path must lie on the 
 // island, paths cannot include edges which are in the sea.
 typedef char path[PATH_LIMIT];
-
+ 
 // actions are what the player AI returns.  They say the one thing
 // the AI wants to do next.  In the playGame logic you'll ask
 // a player for their next action, then you'll check it is a legal
@@ -109,7 +116,7 @@ typedef struct _action {
    int disciplineFrom;  // used for the retrain students action
    int disciplineTo;    // used for the retrain students action
 } action;
-
+ 
 /* **** Functions which change the game aka SETTERS **** */
 // make a new game, given the disciplines produced by each
 // region, and the value on the dice discs in each region.
@@ -139,7 +146,7 @@ Game newGame (int discipline[], int dice[]);
 
 // free all the memory malloced for the game
 void disposeGame (Game g);
-
+ 
 // make the specified action for the current player and update the 
 // game state accordingly.  
 // The function may assume that the action requested is legal.
@@ -153,39 +160,39 @@ void makeAction (Game g, action a);
 void throwDice (Game g, int diceScore);
 
 /* **** Functions which GET data about the game aka GETTERS **** */
-
+ 
 // what type of students are produced by the specified region?
 // regionID is the index of the region in the newGame arrays (above) 
 // see discipline codes above
 int getDiscipline (Game g, int regionID);
-
+ 
 // what dice value produces students in the specified region?
 // 2..12
 int getDiceValue (Game g, int regionID);
-
+ 
 // which university currently has the prestige award for the most ARCs?
 // this is NO_ONE until the first arc is purchased after the game 
 // has started.  
 int getMostARCs (Game g);
-
+ 
 // which university currently has the prestige award for the most pubs?
 // this is NO_ONE until the first publication is made.
 int getMostPublications (Game g);
-
+ 
 // return the current turn number of the game -1,0,1, ..
 int getTurnNumber (Game g);
-
+ 
 // return the player id of the player whose turn it is 
 // the result of this function is NO_ONE during Terra Nullis
 int getWhoseTurn (Game g);
-
+ 
 // return the contents of the given vertex (ie campus code or 
 // VACANT_VERTEX)
 int getCampus(Game g, path pathToVertex);
-
+ 
 // the contents of the given edge (ie ARC code or vacent ARC)
 int getARC(Game g, path pathToEdge);
-
+ 
 // returns TRUE if it is legal for the current
 // player to make the specified action, FALSE otherwise.
 //
@@ -212,35 +219,34 @@ int getARC(Game g, path pathToEdge);
 // or OBTAIN_IP_PATENT (they can make the move START_SPINOFF)
 // you can assume that any pths passed in are NULL terminated strings.
 int isLegalAction (Game g, action a);
-
+ 
 // --- get data about a specified player ---
-
+ 
 // return the number of KPI points the specified player currently has
 int getKPIpoints (Game g, int player);
-
+ 
 // return the number of ARC grants the specified player currently has
 int getARCs (Game g, int player);
-
+ 
 // return the number of GO8 campuses the specified player currently has
 int getGO8s (Game g, int player);
-
+ 
 // return the number of normal Campuses the specified player currently has
 int getCampuses (Game g, int player);
-
+ 
 // return the number of IP Patents the specified player currently has
 int getIPs (Game g, int player);
-
+ 
 // return the number of Publications the specified player currently has
 int getPublications (Game g, int player);
-
+ 
 // return the number of students of the specified discipline type 
 // the specified player currently has
 int getStudents (Game g, int player, int discipline);
-
+ 
 // return how many students of discipline type disciplineFrom
 // the specified player would need to retrain in order to get one 
 // student of discipline type disciplineTo.  This will depend 
-// on what retraining centers, if any, they have a campus at.
+// on what retrainin centers, if any, they have a campus at.
 int getExchangeRate (Game g, int player, 
                      int disciplineFrom, int disciplineTo);
-
