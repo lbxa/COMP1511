@@ -33,12 +33,13 @@ List createLX() {
 }
 
 Link newNodeLX() {
-    return malloc(sizeof(struct _node));
+    Link newLink = malloc(sizeof(struct _node));
+    return newLink;
 }
 
-Link appendLX(int value) {
+//Link appendLX(int value) {
     
-}
+//}
 
 int main (void) {
     
