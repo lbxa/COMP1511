@@ -1,5 +1,5 @@
 #Makefile: Lucas Barbosa
-C_FLAGS= -Wall -Werror -std=c99 -O -m64 
+C_FLAGS=-std=c99 -g -Wall -Werror -m64 
 C_COMP=gcc
 
 # -Wall 	   : Warning[all]
@@ -7,6 +7,7 @@ C_COMP=gcc
 # -std=c99   : C99 ANSI & C99 ISO standard
 # -O         : Compilation optimiser
 # -m64       : 64 bit architecture
+# -g         : Debugging option for GDB
 
 # automatically link all .c source code files
 MAIN_SRC=$(wildcard *.c)	
