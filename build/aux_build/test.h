@@ -42,6 +42,7 @@ void destroy(List list);
 void printls(List list);
 void pop(List list);
 void push(List list, int value);
+void del(List list, int valToDelete);
 
 /*
 **  Prac Tests: Linked Lists Problems

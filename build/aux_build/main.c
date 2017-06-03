@@ -15,8 +15,6 @@
 
 #define INDEX_AT_0 1
 
-void del(List list, int valToDelete);
-
 /*
 **  Linked Lists - Prototyping Auxilary Functions
 **  30.05.2017 | Lucas Barbosa | Open Source Software
