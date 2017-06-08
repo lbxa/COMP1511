@@ -6,7 +6,10 @@
 **  We’ll dwell more into it and actually develop a mapping system. 
 **  Linked lists make it easier to change the order of things much 
 **  easier, also running through a list seems a little more 
-**  intuitively pure then processing an array through a loop.
+**  intuitively pure then processing an array through a loop. *This
+**  code is being written through a prototype approach, as a working
+**  crapy solution is currently more important than correctly 
+**  documented code. 
 **
 **  24.05.2017 | Lucas Barbosa | HS1917 | Open Source Software (C)
 */
@@ -27,19 +30,7 @@
 
 int main (void) {
     
-    //runTests();
-    List australia = createList();
-    push(australia, 2155, "Kellyville");
-    push(australia, 3166, "Rouse Hill");
-    push(australia, 2154, "Castle Hill");
-    push(australia, 2174, "Baulkham Hills");
-    push(australia, 1323, "Strathfiled");
-    push(australia, 3563, "Redfern");
-    printls(australia, TRUE);
-    printf("\n");
-    printls(australia, FALSE);
-    Link currNode1 = get(australia, 5);
-    printf("%s\n", currNode1->addr);
+    runTests();
     
     return EXIT_SUCCESS;
 }
@@ -58,13 +49,10 @@ Link createNode() {
 Link push(List list, int paramCode, char *address) {
     assert(list != NULL);
     Link newNode = createNode();
-    
     newNode->areaCode = paramCode;
     newNode->addr     = address;
     newNode->next     = NULL;
-    
     Link currNode = list->head;
-    
     if (currNode == NULL) {
        list->head       = newNode;
        list->head->prev = NULL;
@@ -76,7 +64,7 @@ Link push(List list, int paramCode, char *address) {
         newNode->prev  = currNode;
         currNode->next = newNode;
     }
-    return currNode;
+    return newNode;
 }
 
 Link pez(List list) {
@@ -100,10 +88,11 @@ int len(List list) {
 
 Link get(List list, int index) {
     assert(list != NULL);
+    assert(index < len(list));
     int counter = 0;
-    Link currNode = list->head;
     Link indexedNode;
-    while (currNode->next != NULL) {
+    Link currNode = list->head;
+    while (currNode != NULL) {
         if (counter == index) {
             indexedNode = currNode;
         }
@@ -126,31 +115,31 @@ void del(List list, int valToDelete) {
 
 void destroy(List list) {
     assert(list != NULL);
-    
+    Link currNode = list->head;
+    Link tmpBin;
+    while (currNode != NULL) {
+        tmpBin = currNode;
+        currNode = currNode->next;
+        free(tmpBin);
+    }
 }
 
 void printls(List list, int printAddress) {
     assert(list != NULL);
-    
+    printf("(X)<->");
+    Link currNode = list->head;
     if (printAddress == TRUE) {
-        Link currNode = list->head;
-        printf("(X)<->");
         while (currNode != NULL) {
             printf("[%s]<->", currNode->addr);
             currNode = currNode->next;
         }
-        printf("{X}\n");
     } else {
-        Link currNode = list->head;
-        printf("(X)<->");
         while (currNode != NULL) {
             printf("[%d]<->", currNode->areaCode);
             currNode = currNode->next;
         }
-        printf("{X}\n");
     }
-    
-    
+    printf("{X}\n");
 }
 
 void pop(List list) {
