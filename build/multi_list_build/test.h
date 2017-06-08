@@ -22,9 +22,11 @@ struct _list {
 };
 
 typedef struct _node {
-    int value;
+    int areaCode;
+    char *addr;
     Link next;
-} Node;
+    Link prev;
+} *Node;
 
 /*
 **  Linked Lists: Auxilary Functions
@@ -32,25 +34,23 @@ typedef struct _node {
 
 List createList();
 Link createNode();
-Link append(List list, int value);
+Link push(List list, int paramCode, char *address);
 Link pez(List list);
+Link get(List list, int index);
 
-int  len(List list);
-int  get(List list, int index);
+int len(List list);
+
 
 void destroy(List list);
-void printls(List list);
+void printls(List list, int printAddress);
 void pop(List list);
-void push(List list, int value);
-void del(List list, int valToDelete);
+void append(List list, int paramCode, char *address);
 
 /*
 **  Prac Tests: Linked Lists Problems
 */
 
 int  median(List list);
-void removeUpperCase(List list);
-void cut(List list, int n);
 
 void runTests(void);
 

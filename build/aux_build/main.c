@@ -207,3 +207,24 @@ void push(List list, int value) {
 void removeUpperCase(List list) {
     assert(list != NULL);
 }
+
+void cut(List list, int n) {
+    assert(list != NULL);
+    int counter = 0;
+    Link currNode;
+    
+    if (list->head->next == NULL) {
+        // cut nothing
+    } else {
+        while (counter < n) {
+            currNode = list->head;
+            while (currNode->next != NULL) {
+                currNode = currNode->next;
+            }
+            currNode->next = list->head;
+            list->head->next = NULL;
+            
+            counter++;
+        }
+    }
+}
