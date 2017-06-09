@@ -50,6 +50,9 @@ void printls(List list, int printAddress);
 void pop(List list);
 void append(List list, int paramCode, char *address);
 void del(List list, int areaCodetoDelete);
+void join(List listA, List listB, List listC);
+void join3(List listA, List listB, List listC, List joinedList);
+
 
 void runTests(void);
 

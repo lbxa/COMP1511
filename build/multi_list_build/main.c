@@ -29,25 +29,21 @@
 int main (void) {
     printf("\n"); /* | */ runTests(); /* | */ printf("\n");
     
-    List testlist = newList();
-    assert(testlist != NULL);
     
-    push(testlist, 2155, "Kellyville");
-    push(testlist, 2155, "Kellyville");
-    push(testlist, 2155, "Kellyville");
-    push(testlist, 2155, "Kellyville");
-    push(testlist, 2154, "Castle Hill");
-    push(testlist, 2155, "Kellyville");
-    push(testlist, 2155, "Kellyville");
-    push(testlist, 2155, "Kellyville");
-    push(testlist, 2155, "Kellyville");
-    push(testlist, 2154, "Castle Hill");
-    push(testlist, 2155, "Kellyville");
-    push(testlist, 2155, "Kellyville");
+    List listA = newList();
+    push(listA, 2155, "Kellyville");
     
-    del(testlist, 2155);
-    printls(testlist, AREA_CODE);
-    printf("Len: %d\n", len(testlist));
+    List listB = newList();
+    push(listB, 2154, "Castle Hill");
+    
+    List listC = newList();
+    push(listC, 2153, "Rouse Hill");
+    
+    List listD = newList();
+    
+    join3(listA, listB, listC, listD);
+    
+    printls(listD, ADDR_CODE);
     
     return EXIT_SUCCESS;
 }
@@ -150,7 +146,6 @@ void del(List list, int areaCodetoDelete) {
                 // edge case: 1st item
                 pop(list);
             } else if (currNode->areaCode == areaCodetoDelete) {
-                // edge case: within 1st & last item
                 linkBin = currNode;
                 currNode->prev->next = currNode->next;     // operations include previous node
                 currNode->next->prev = currNode->prev;
@@ -158,14 +153,12 @@ void del(List list, int areaCodetoDelete) {
             }
             currNode = currNode->next;
         }
-        // edge case: last item
         if ((currNode->next == NULL) && (currNode->areaCode == areaCodetoDelete)) {
             // edge case: last item
             currNode->prev->next = NULL;
             currNode->prev = NULL;
         }
     }
-    
 }
 
 void destroy(List list) {
@@ -199,6 +192,7 @@ void printls(List list, int printAddress) {
 
 void pop(List list) {
     assert(list != NULL);
+    assert(len(list) > 1);
     list->head = list->head->next;
     list->head->prev = NULL;
 }
@@ -221,6 +215,38 @@ void append(List list, int paramCode, char *address){
         currNode->next      = anointedNode;
         anointedNode->prev  = currNode;
     }
+}
+
+void join(List listA, List listB, List joinedList) {
+    assert((listA != NULL) && (listB != NULL) && (joinedList != NULL));
+    assert(joinedList->head == NULL);
+    joinedList->head = listA->head;
+    listA->head = NULL;  
+    Link currNode = joinedList->head;
+    while(currNode->next != NULL) {
+        currNode = currNode->next;
+    }
+    currNode->next = listB->head;
+    listB->head->prev = currNode;
+}
+
+void join3(List listA, List listB, List listC, List joinedList) {
+    assert((listA != NULL) && (listB != NULL) && (listC != NULL));
+    assert(joinedList->head == NULL);
+    joinedList->head = listA->head;
+    listA->head = NULL;  
+    Link currNode = joinedList->head;
+    while(currNode->next != NULL) {
+        currNode = currNode->next;
+    }
+    currNode->next = listB->head;
+    listB->head->prev = currNode;
+    currNode = joinedList->head;
+    while(currNode->next != NULL) {
+        currNode = currNode->next;
+    }
+    currNode->next = listC->head;
+    listC->head->prev = currNode;
 }
 
 void cut(List list, int n) {

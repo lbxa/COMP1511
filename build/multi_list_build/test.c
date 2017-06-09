@@ -122,15 +122,53 @@ void runTests(void) {
     assert(popTestList->head->areaCode == addrArr[8]);
  
     /*
-    **  Test: Length of Lists
+    **  Test: Length of Lists (uses array from above test)
     **    > Returning the exact length of a list
     **    > Make sure that boundary values work accordingly
     **  No stupid seg-faults...
     */
   
     List lenTestList = newList();
-    //Link currLenNode;
+    Link currLenNode;
     assert(lenTestList != NULL);
+    currLenNode = push(lenTestList, addrArr[0], "Kellyville");
+    assert(currLenNode->areaCode == addrArr[0]);
+    currLenNode = push(lenTestList, addrArr[1], "Rouse Hill");
+    assert(currLenNode->areaCode == addrArr[1]);
+    currLenNode = push(lenTestList, addrArr[2], "Castle Hill");
+    assert(currLenNode->areaCode == addrArr[2]);
+    currLenNode = push(lenTestList, addrArr[3], "Baulkham Hills");
+    assert(currLenNode->areaCode == addrArr[3]);
+    currLenNode = push(lenTestList, addrArr[4], "Strathfiled");
+    assert(currLenNode->areaCode == addrArr[4]);
+    currLenNode = push(lenTestList, addrArr[5], "Redfern");
+    assert(currLenNode->areaCode == addrArr[5]);
+    currLenNode = push(lenTestList, addrArr[6], "Scofields");
+    assert(currLenNode->areaCode == addrArr[6]);
+    currLenNode = push(lenTestList, addrArr[7], "Central");
+    assert(currLenNode->areaCode == addrArr[7]);
+    currLenNode = push(lenTestList, addrArr[8], "Westmead");
+    assert(currLenNode->areaCode == addrArr[8]);
+    
+    assert(len(lenTestList) == 9);
+    pop(lenTestList);
+    assert(len(lenTestList) == 8);
+    pop(lenTestList);
+    assert(len(lenTestList) == 7);
+    pop(lenTestList);
+    assert(len(lenTestList) == 6);
+    pop(lenTestList);
+    assert(len(lenTestList) == 5);
+    pop(lenTestList);
+    assert(len(lenTestList) == 4);
+    pop(lenTestList);
+    assert(len(lenTestList) == 3);
+    pop(lenTestList);
+    assert(len(lenTestList) == 2);
+    pop(lenTestList);
+    assert(len(lenTestList) == 1);
+    
+    destroy(lenTestList);
     
     /*
     **  Test: Pez Dispenser (Removing and Returning top node)
