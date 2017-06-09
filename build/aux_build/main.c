@@ -41,7 +41,7 @@ int main (void) {
     append(linkedList, 'B');
     append(linkedList, 'A');
     append(linkedList, 'B');
-    //append(linkedList, 'B');  // <----- seg-fault here (test with GDB)
+    append(linkedList, 'B');  // <----- seg-fault here (test with GDB)
     printls(linkedList);
     del(linkedList, 'B');
     printls(linkedList);
@@ -154,7 +154,7 @@ void del(List list, int valToDelete) {
     
     while (currNode->next->next != NULL) {
         
-        while (currNode->next->value == valToDelete) {
+        while (currNode->value == valToDelete) {
             currNode->next = currNode->next->next;
         }
         currNode = currNode->next;
@@ -207,6 +207,7 @@ void push(List list, int value) {
 void removeUpperCase(List list) {
     assert(list != NULL);
 }
+<<<<<<< HEAD
 
 void cut(List list, int n) {
     assert(list != NULL);
@@ -228,3 +229,5 @@ void cut(List list, int n) {
         }
     }
 }
+=======
+>>>>>>> e0b4831593eacd05c2aa6db6b280b24164d10f1a
