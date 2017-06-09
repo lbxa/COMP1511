@@ -21,11 +21,6 @@
 // Testing interface
 #include "test.h"
 
-#define INDEX_AT_ZERO 1
-#define EVEN 0
-#define ADDR_CODE 1
-#define AREA_CODE 0
-
 /*
 **  Multi-Lists ~ Prototyping Auxilary Functions
 **  30.05.2017 | Lucas Barbosa | Open Source Software
@@ -230,5 +225,5 @@ void append(List list, int paramCode, char *address){
 
 void cut(List list, int n) {
     assert(list != NULL);
-    
+    // Write driver ...
 }

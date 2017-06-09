@@ -10,9 +10,13 @@
 **  30.05.2017 | Lucas Barbosa | HS1917 | Open Source Software (C)
 */
 
+#define UNKNOWN_NODE 0 
+#define INDEX_AT_ZERO 1
 #define TRUE 1
 #define FALSE 0
-#define UNKNOWN_NODE 0 
+#define EVEN 0
+#define ADDR_CODE 1
+#define AREA_CODE 0
 
 typedef struct _node * Link;
 typedef struct _list * List;
