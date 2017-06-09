@@ -32,60 +32,28 @@
 */
 
 int main (void) {
-    printf("\n");
+    printf("\n"); /* | */ runTests(); /* | */ printf("\n");
     
-    // Run tests before custom output
-    runTests();
-    List list1 = newList();
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 3166, "Rouse Hill");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 3166, "Rouse Hill");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 3166, "Rouse Hill");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
-    push(list1, 2155, "Kellyville");
+    List testlist = newList();
+    assert(testlist != NULL);
     
-    printls(list1, AREA_CODE);
-    del(list1, 2155);
-    printls(list1, AREA_CODE);
+    push(testlist, 2155, "Kellyville");
+    push(testlist, 2155, "Kellyville");
+    push(testlist, 2155, "Kellyville");
+    push(testlist, 2155, "Kellyville");
+    push(testlist, 2154, "Castle Hill");
+    push(testlist, 2155, "Kellyville");
+    push(testlist, 2155, "Kellyville");
+    push(testlist, 2155, "Kellyville");
+    push(testlist, 2155, "Kellyville");
+    push(testlist, 2154, "Castle Hill");
+    push(testlist, 2155, "Kellyville");
+    push(testlist, 2155, "Kellyville");
     
-    printf("\n");
+    del(testlist, 2155);
+    printls(testlist, AREA_CODE);
+    printf("Len: %d\n", len(testlist));
+    
     return EXIT_SUCCESS;
 }
 
@@ -199,6 +167,7 @@ void del(List list, int areaCodetoDelete) {
         if ((currNode->next == NULL) && (currNode->areaCode == areaCodetoDelete)) {
             // edge case: last item
             currNode->prev->next = NULL;
+            currNode->prev = NULL;
         }
     }
     

@@ -68,7 +68,7 @@ void runTests(void) {
     destroy(pushTestList);
     
     /*
-    **  Test: Popping & Pezzing Items
+    **  Test: Popping & Pezzing Items (uses array from above test)
     **    > Pop out from top 
     **    > Make sure correct link is returned from pez()
     **  Make sure that there are no stupid seg-faults
@@ -148,5 +148,55 @@ void runTests(void) {
     **  No stupid seg-faults...
     */
     
+    /*
+    **  Test: Delete
+    **    > Deleting values at beginning
+    **    > Deleting values in middle
+    **    > Deleting values at end
+    **    > Deleting multiple values (all equal)
+    **  No stupid seg-faults...
+    */
     
+    List delTestList = newList();
+    Link currDelLink;
+    int delTestArr[12] = {2155, 2153, 2155, 2156, 2154, 2155, 2157, 2155, 2155, 2514, 2155, 2155};
+    assert(delTestList != NULL);
+    
+    currDelLink = push(delTestList, delTestArr[0], "Kellyville");
+    assert(currDelLink->areaCode == delTestArr[0]);
+    currDelLink = push(delTestList, delTestArr[1], "Parramatta");
+    assert(currDelLink->areaCode == delTestArr[1]);
+    currDelLink = push(delTestList, delTestArr[2], "Kellyville");
+    assert(currDelLink->areaCode == delTestArr[2]);
+    currDelLink = push(delTestList, delTestArr[3], "Rouse Hill");
+    assert(currDelLink->areaCode == delTestArr[3]);
+    currDelLink = push(delTestList, delTestArr[4], "Castle Hill");
+    assert(currDelLink->areaCode == delTestArr[4]);
+    currDelLink = push(delTestList, delTestArr[5], "Kellyville");
+    assert(currDelLink->areaCode == delTestArr[5]);
+    currDelLink = push(delTestList, delTestArr[6], "Baulkham Hills");
+    assert(currDelLink->areaCode == delTestArr[6]);
+    currDelLink = push(delTestList, delTestArr[7], "Kellyville");
+    assert(currDelLink->areaCode == delTestArr[7]);
+    currDelLink = push(delTestList, delTestArr[8], "Kellyville");
+    assert(currDelLink->areaCode == delTestArr[8]);
+    currDelLink = push(delTestList, delTestArr[9], "Castle Hill");
+    assert(currDelLink->areaCode == delTestArr[9]);
+    currDelLink = push(delTestList, delTestArr[10], "Kellyville");
+    assert(currDelLink->areaCode == delTestArr[10]);
+    currDelLink = push(delTestList, delTestArr[11], "Kellyville");
+    assert(currDelLink->areaCode == delTestArr[11]);
+    
+    del(delTestList, delTestArr[0]);
+    assert(len(delTestList) == 5);
+    del(delTestList, delTestArr[1]);
+    assert(len(delTestList) == 4);
+    del(delTestList, delTestArr[3]);
+    assert(len(delTestList) == 3);
+    del(delTestList, delTestArr[6]);
+    assert(len(delTestList) == 2);
+    
+    destroy(delTestList);
+    
+    printf("All tests were passed.\n");   
 }
