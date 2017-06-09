@@ -45,6 +45,7 @@ void destroy(List list);
 void printls(List list, int printAddress);
 void pop(List list);
 void append(List list, int paramCode, char *address);
+void del(List list, int areaCodetoDelete);
 
 void runTests(void);
 

@@ -38,20 +38,30 @@ int main (void) {
     runTests();
     List list1 = newList();
     push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
     push(list1, 3166, "Rouse Hill");
-    push(list1, 2154, "Castle Hill");
-    push(list1, 2174, "Baulkham Hills");
-    push(list1, 1323, "Strathfiled");
-    push(list1, 3563, "Redfern");
-    push(list1, 2313, "Scofields");
-    push(list1, 1453, "Central");
-    push(list1, 1753, "Westmead");
-    push(list1, 1753, "Westmead");
-    push(list1, 1753, "Westmead");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 2155, "Kellyville");
+    push(list1, 3166, "Rouse Hill");
     
-    Link median1 = median(list1);
     printls(list1, AREA_CODE);
-    printf("%d\n", median1->areaCode);
+    del(list1, 2155);
+    printls(list1, AREA_CODE);
     
     printf("\n");
     return EXIT_SUCCESS;
@@ -142,8 +152,45 @@ Link median(List list) {
     return median;
 }
 
-void del(List list, int valToDelete) {
+void del(List list, int areaCodetoDelete) {
     assert(list != NULL);
+    Link linkBin;
+    
+    if ((list->head->next == NULL) && (list->head->areaCode == areaCodetoDelete)) {
+        list->head = NULL;
+    } else {
+        Link currNode = list->head;
+        while (currNode->next != NULL) {
+        
+            
+            if ((currNode->prev == NULL) && (currNode->areaCode == areaCodetoDelete)) {
+                
+                // edge case: 1st item
+                printf("edge case: 1st item.\n");
+                pop(list);
+                
+            } else if (currNode->areaCode == areaCodetoDelete) {
+                
+                // edge case: within 1st & last item
+                printf("edge case: within 1st & last item.\n");
+                linkBin = currNode;
+                currNode->prev->next = currNode->next;
+                free(linkBin);
+                
+            }
+            
+            currNode = currNode->next;
+        }
+        
+        // edge case: last item
+        if ((currNode->next == NULL) && (currNode->areaCode == areaCodetoDelete)) {
+            
+            // edge case: last item
+            printf("edge case: last item.\n");
+            currNode->prev->next = NULL;
+                
+        }
+    }
     
 }
 

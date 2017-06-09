@@ -129,7 +129,7 @@ void runTests(void) {
     */
   
     List lenTestList = newList();
-    Link currLenNode;
+    //Link currLenNode;
     assert(lenTestList != NULL);
     
     /*
@@ -141,9 +141,12 @@ void runTests(void) {
     **  Test: Getter (Retrieving values from indexes in list)
     */
     
-    
     /*
-    **  Test: Median (First prac test)
+    **  Test: Median
+    **    > Returning the exact median
+    **    > If not median return the value previous to halfway
+    **  No stupid seg-faults...
     */
+    
     
 }
