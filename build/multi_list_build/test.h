@@ -32,25 +32,19 @@ typedef struct _node {
 **  Linked Lists: Auxilary Functions
 */
 
-List createList();
-Link createNode();
+List newList();
+Link newNode();
 Link push(List list, int paramCode, char *address);
 Link pez(List list);
 Link get(List list, int index);
+Link median(List list);
 
 int len(List list);
-
 
 void destroy(List list);
 void printls(List list, int printAddress);
 void pop(List list);
 void append(List list, int paramCode, char *address);
-
-/*
-**  Prac Tests: Linked Lists Problems
-*/
-
-int  median(List list);
 
 void runTests(void);
 

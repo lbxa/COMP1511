@@ -21,7 +21,10 @@
 // Testing interface
 #include "test.h"
 
-#define INDEX_AT_0 1
+#define INDEX_AT_ZERO 1
+#define EVEN 0
+#define ADDR_CODE 1
+#define AREA_CODE 0
 
 /*
 **  Multi-Lists ~ Prototyping Auxilary Functions
@@ -29,46 +32,66 @@
 */
 
 int main (void) {
+    printf("\n");
     
+    // Run tests before custom output
     runTests();
+    List list1 = newList();
+    push(list1, 2155, "Kellyville");
+    push(list1, 3166, "Rouse Hill");
+    push(list1, 2154, "Castle Hill");
+    push(list1, 2174, "Baulkham Hills");
+    push(list1, 1323, "Strathfiled");
+    push(list1, 3563, "Redfern");
+    push(list1, 2313, "Scofields");
+    push(list1, 1453, "Central");
+    push(list1, 1753, "Westmead");
+    push(list1, 1753, "Westmead");
+    push(list1, 1753, "Westmead");
     
+    Link median1 = median(list1);
+    printls(list1, AREA_CODE);
+    printf("%d\n", median1->areaCode);
+    
+    printf("\n");
     return EXIT_SUCCESS;
 }
 
-List createList() {
+List newList() {
     List newList = malloc(sizeof(struct _list));
     assert(newList != NULL);
     newList->head = NULL;
     return newList;
 }
 
-Link createNode() {
+Link newNode() {
     return malloc(sizeof(struct _node));
 }
 
 Link push(List list, int paramCode, char *address) {
     assert(list != NULL);
-    Link newNode = createNode();
-    newNode->areaCode = paramCode;
-    newNode->addr     = address;
-    newNode->next     = NULL;
+    Link anointedNode = newNode();
+    anointedNode->areaCode = paramCode;
+    anointedNode->addr     = address;
+    anointedNode->next     = NULL;
     Link currNode = list->head;
     if (currNode == NULL) {
-       list->head       = newNode;
+       list->head       = anointedNode;
        list->head->prev = NULL;
     } else {
         currNode = list->head;
         while (currNode->next != NULL) {
             currNode = currNode->next;
         }
-        newNode->prev  = currNode;
-        currNode->next = newNode;
+        anointedNode->prev  = currNode;
+        currNode->next      = anointedNode;
     }
-    return newNode;
+    return anointedNode;
 }
 
 Link pez(List list) {
     assert(list != NULL);
+    assert(len(list) > 1);
     Link savedNode = list->head;
     list->head = list->head->next;
     list->head->prev = NULL;
@@ -102,10 +125,21 @@ Link get(List list, int index) {
     return indexedNode;
 }
 
-int median(List list) {
+Link median(List list) {
     assert(list != NULL);
-
-    return 1;
+    int index = 0;
+    Link median;
+    int listLen = len(list);
+    if (listLen % 2 == EVEN) {
+        index = listLen / 2;
+        index -= INDEX_AT_ZERO;
+        median = get(list, index);
+    } else {
+        index = (listLen + 1) / 2;
+        index -= INDEX_AT_ZERO;
+        median = get(list, index);
+    }
+    return median;
 }
 
 void del(List list, int valToDelete) {
@@ -128,7 +162,7 @@ void printls(List list, int printAddress) {
     assert(list != NULL);
     printf("(X)<->");
     Link currNode = list->head;
-    if (printAddress == TRUE) {
+    if (printAddress == ADDR_CODE) {
         while (currNode != NULL) {
             printf("[%s]<->", currNode->addr);
             currNode = currNode->next;
@@ -150,21 +184,21 @@ void pop(List list) {
 
 void append(List list, int paramCode, char *address){
     assert(list != NULL);
-    Link newNode = createNode();
-    newNode->areaCode = paramCode;
-    newNode->addr     = address;
-    newNode->prev     = NULL;
-    newNode->next     = NULL;
+    Link anointedNode = newNode();
+    anointedNode->areaCode = paramCode;
+    anointedNode->addr     = address;
+    anointedNode->prev     = NULL;
+    anointedNode->next     = NULL;
     Link currNode = list->head;
     if (currNode == NULL) {
-       list->head = newNode;
+       list->head = anointedNode;
     } else {
         currNode = list->head;
         while (currNode->next != NULL) {
             currNode = currNode->next;
         }
-        currNode->next = newNode;
-        newNode->prev  = currNode;
+        currNode->next      = anointedNode;
+        anointedNode->prev  = currNode;
     }
 }
 
