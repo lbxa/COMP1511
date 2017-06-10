@@ -1,5 +1,5 @@
 /*
-**  Multi-Lists
+**  Multi-Lists (Library)
 **  
 **  Once the normal linked-lists are understood, bi-directional 
 **  linked-lists are the best viable option for GPS mapping. 
@@ -10,6 +10,9 @@
 **  code is being written through a prototype approach, as a working
 **  crapy solution is currently more important than correctly 
 **  documented code. 
+**
+**  ``This software is in the prototyping stage (code should not be 
+**    distributed)
 **
 **  24.05.2017 | Lucas Barbosa | HS1917 | Open Source Software (C)
 */
@@ -29,21 +32,20 @@
 int main (void) {
     printf("\n"); /* | */ runTests(); /* | */ printf("\n");
     
-    
     List listA = newList();
-    push(listA, 2155, "Kellyville");
+    append(listA, 2155, "Kellyville");
+    append(listA, 2155, "Kellyville");
+    append(listA, 2155, "Kellyville");
+    append(listA, 2155, "Kellyville");
+    append(listA, 2155, "Kellyville");
+    append(listA, 2155, "Kellyville");
+    printls(listA, AREA_CODE);
+    Node nodeA = newNode(); 
+    nodeA->areaCode = 2154;
+    nodeA->addr     = "Castle Hill";
+    swap(listA, 2155, nodeA);
+    printls(listA, ADDR_CODE);
     
-    List listB = newList();
-    push(listB, 2154, "Castle Hill");
-    
-    List listC = newList();
-    push(listC, 2153, "Rouse Hill");
-    
-    List listD = newList();
-    
-    join3(listA, listB, listC, listD);
-    
-    printls(listD, ADDR_CODE);
     
     return EXIT_SUCCESS;
 }
@@ -249,7 +251,45 @@ void join3(List listA, List listB, List listC, List joinedList) {
     listC->head->prev = currNode;
 }
 
+void join4(List listA, List listB, List listC, List listD, List joinedList) {
+    assert((listA != NULL) && (listB != NULL) && (listC != NULL) && (listD != NULL));
+    assert(joinedList->head == NULL);
+    joinedList->head = listA->head;
+    listA->head = NULL;  
+    Link currNode = joinedList->head;
+    while(currNode->next != NULL) {
+        currNode = currNode->next;
+    }
+    currNode->next = listB->head;
+    listB->head->prev = currNode;
+    currNode = joinedList->head;
+    while(currNode->next != NULL) {
+        currNode = currNode->next;
+    }
+    currNode->next = listC->head;
+    listC->head->prev = currNode;
+    currNode = joinedList->head;
+    while(currNode->next != NULL) {
+        currNode = currNode->next;
+    }
+    currNode->next = listD->head;
+    listD->head->prev = currNode;
+}
+
+void swap(List list, int chosenAreaCode, Link newNode) {
+    assert(list != NULL);
+    assert((newNode != NULL) || (newNode->areaCode != INVALID_AREA_CODE) || (newNode->addr != NULL));
+    Link currNode = list->head;
+    while (currNode != NULL) {
+        if (currNode->areaCode == chosenAreaCode) {
+            currNode->areaCode = newNode->areaCode;
+            currNode->addr     = newNode->addr;
+        }
+        currNode = currNode->next;
+    }
+}
+
 void cut(List list, int n) {
     assert(list != NULL);
-    // Write driver ...
+    // write driver...
 }

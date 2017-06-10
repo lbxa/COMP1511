@@ -12,6 +12,7 @@
 
 #define UNKNOWN_NODE 0 
 #define INDEX_AT_ZERO 1
+#define INVALID_AREA_CODE -1
 #define TRUE 1
 #define FALSE 0
 #define EVEN 0
@@ -20,6 +21,7 @@
 
 typedef struct _node * Link;
 typedef struct _list * List;
+typedef struct _list * xPath;
 
 struct _list {
     Link head;
@@ -52,7 +54,9 @@ void append(List list, int paramCode, char *address);
 void del(List list, int areaCodetoDelete);
 void join(List listA, List listB, List listC);
 void join3(List listA, List listB, List listC, List joinedList);
-
+void join4(List listA, List listB, List listC, List listD, List joinedList);
+void cut(List list, int n);
+void swap(List list, int areaCode, Link newNode);
 
 void runTests(void);
 
