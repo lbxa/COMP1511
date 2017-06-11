@@ -39,13 +39,15 @@ int main (void) {
     append(listA, 2155, "Kellyville");
     append(listA, 2155, "Kellyville");
     append(listA, 2155, "Kellyville");
-    printls(listA, AREA_CODE);
+    //printls(listA, AREA_CODE);
     Node nodeA = newNode(); 
-    nodeA->areaCode = 2154;
+    nodeA->areaCode = 2155;
     nodeA->addr     = "Castle Hill";
     swap(listA, 2155, nodeA);
     printls(listA, ADDR_CODE);
-    
+    printf("\n");
+    cut(listA, 1);
+    printls(listA, AREA_CODE);
     
     return EXIT_SUCCESS;
 }
@@ -291,5 +293,15 @@ void swap(List list, int chosenAreaCode, Link newNode) {
 
 void cut(List list, int n) {
     assert(list != NULL);
-    // write driver...
+    
+    int counter = 0;
+    Link currNode;
+    while (counter < n) {
+        currNode = list->head;
+        while (currNode->next != NULL) {
+            currNode = currNode->next;
+        }
+        // finish driver...
+        counter++;
+    }
 }
