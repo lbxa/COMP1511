@@ -36,7 +36,7 @@ int main (void) {
     append(listA, 2155, "Kellyville");
     append(listA, 2155, "Kellyville");
     append(listA, 2155, "Kellyville");
-    append(listA, 2155, "Kellyville");
+    append(listA, 2154, "Castle Hill");
     append(listA, 2155, "Kellyville");
     append(listA, 2155, "Kellyville");
     //printls(listA, AREA_CODE);
@@ -44,10 +44,8 @@ int main (void) {
     nodeA->areaCode = 2155;
     nodeA->addr     = "Castle Hill";
     swap(listA, 2155, nodeA);
-    printls(listA, ADDR_CODE);
-    printf("\n");
-    cut(listA, 1);
     printls(listA, AREA_CODE);
+    printf("\n");
     
     return EXIT_SUCCESS;
 }
@@ -291,7 +289,7 @@ void swap(List list, int chosenAreaCode, Link newNode) {
     }
 }
 
-void cut(List list, int n) {
+void cut(List list, int n) {  
     assert(list != NULL);
     
     int counter = 0;
