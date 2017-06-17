@@ -31,30 +31,43 @@ void hourGlass(int size) {
     firstRow = firstItem = 0;
     int lastRow = size - 1;
     
-    // populating the arrat
-    for (int j = 0; j < size; j++) {
-        for (int i = 0; i < size; i++) {
-            hourGlass[j][i] = " ";
+    int col, row;
+    col = row = 0;
+    
+    // populating the array
+    while (col < size) {
+        row = 0;
+        while (row < size) {
+            hourGlass[col][row] = " ";
+            row++;
         }
+        col++;
     }
     
+    int i = 0;
+    
     // putting in em arsterixes
-    for (int i = 0; i < size; i++) {
+    while (i < size) {
         hourGlass[i][i] = "\\";
         hourGlass[i][size - i - INDEX_AT_ZERO] = "/";
         
         hourGlass[firstRow][i] = SYMBOL;
         hourGlass[lastRow][i] = SYMBOL;
         hourGlass[lastRow][firstItem] = SYMBOL;
-        
+        i++; 
     }
     
+    col = row = 0;
+    
     // printing em out boi
-    for (int j = 0; j < size; j++) {
-        for (int i = 0; i < size; i++) {
-            printf("%s", hourGlass[j][i]);
+    while (col < size) {
+        row = 0;
+        while (row < size) {
+            printf("%s", hourGlass[col][row]);
+            row++;
         }
         printf("\n");
+        col++;
     }
     
 }
